@@ -28,9 +28,11 @@ public class User {
     private String profilePictureId;
 
     @ManyToOne
+    @JoinColumn(name = "city_id")
     private City city;
 
     @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     public Integer getUserId() {
