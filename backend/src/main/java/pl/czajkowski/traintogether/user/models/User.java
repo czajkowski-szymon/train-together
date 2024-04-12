@@ -1,8 +1,10 @@
 package pl.czajkowski.traintogether.user.models;
 
 import jakarta.persistence.*;
+import pl.czajkowski.traintogether.sport.Sport;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "user_")
@@ -34,6 +36,14 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_sport",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "sport_id")
+    )
+    private List<Sport> sports;
 
     public Integer getUserId() {
         return userId;
@@ -113,6 +123,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Sport> getSports() {
+        return sports;
+    }
+
+    public void setSports(List<Sport> sports) {
+        this.sports = sports;
     }
 
     @Override
