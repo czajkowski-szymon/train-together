@@ -1,0 +1,35 @@
+<div class="container">
+  <header>
+    <h1>TRAIN TOGETHER</h1>
+    <div class="logo">
+      <img src="../../assets/img/logo.svg" alt="Two people running" />
+    </div>
+  </header>
+  <main class="register-container">
+    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <input type="text" formControlName="username" placeholder="Username" />
+      </div>
+      <div class="field">
+        <input type="email" formControlName="email" placeholder="Email"/>
+      </div>
+      <div class="field">
+        <input type="password" formControlName="password" placeholder="Password"/>
+      </div>
+      <div class="field">
+        <input type="password" formControlName="confirmedPassword" placeholder="Confirm Password"/>
+      </div>
+      <div class="field">
+        <input type="text" formControlName="firstName" placeholder="First Name"/>
+      </div>
+      <div class="field">
+        <textarea formControlName="bio" placeholder="Bio" cols="21" rows="10"></textarea>
+      </div>
+
+      <div class="button">
+        <button type="submit">SIGN UP</button>
+      </div>
+    </form>
+    <p class="login-link">Already have an account? <a routerLink="/login">Sign in</a></p>
+  </main>
+</div>
