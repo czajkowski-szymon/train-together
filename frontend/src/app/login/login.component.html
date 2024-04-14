@@ -1,0 +1,23 @@
+<div class="container">
+  <header>
+    <h1>TRAIN TOGETHER</h1>
+    <div class="logo">
+      <img src="../../assets/img/logo.svg" alt="Two people running" />
+    </div>
+  </header>
+  <main class="login-container">
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+			<div class="field">
+				<input type="email" formControlName="email" placeholder="Email">
+			</div>
+			<div class="field">
+				<input type="password" formControlName="password" placeholder="Password">
+			</div>
+
+			<div class="button">
+				<button type="submit">SIGN IN</button>
+			</div>
+		</form>
+		<p class="register-link">New to TrainTogether? <a routerLink="/register">Create an account</a></p>
+  </main>
+</div>
