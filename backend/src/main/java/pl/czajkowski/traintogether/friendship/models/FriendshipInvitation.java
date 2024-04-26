@@ -1,24 +1,20 @@
-package pl.czajkowski.traintogether.training.models;
+package pl.czajkowski.traintogether.friendship.models;
 
 import jakarta.persistence.*;
-import pl.czajkowski.traintogether.sport.Sport;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import pl.czajkowski.traintogether.user.models.User;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "training_invitation")
-public class TrainingInvitation {
+@Table(name = "friendship_invitation")
+public class FriendshipInvitation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer trainingInvitationId;
+    private Integer friendshipInvitationId;
 
-    private LocalDate date;
-
-    @ManyToOne
-    @JoinColumn(name = "sport_id")
-    private Sport sport;
+    private LocalDateTime sendAt;
 
     private boolean isAccepted;
 
@@ -30,28 +26,20 @@ public class TrainingInvitation {
     @JoinColumn(name = "receiver_id")
     private User receiver;
 
-    public Integer getTrainingInvitationId() {
-        return trainingInvitationId;
+    public Integer getFriendshipInvitationId() {
+        return friendshipInvitationId;
     }
 
-    public void setTrainingInvitationId(Integer trainingInvitationId) {
-        this.trainingInvitationId = trainingInvitationId;
+    public void setFriendshipInvitationId(Integer friendshipInvitationId) {
+        this.friendshipInvitationId = friendshipInvitationId;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getSendAt() {
+        return sendAt;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public Sport getSport() {
-        return sport;
-    }
-
-    public void setSport(Sport sport) {
-        this.sport = sport;
+    public void setSendAt(LocalDateTime sendAt) {
+        this.sendAt = sendAt;
     }
 
     public boolean isAccepted() {
@@ -80,10 +68,9 @@ public class TrainingInvitation {
 
     @Override
     public String toString() {
-        return "TrainingInvitation{" +
-                "trainingInvitationId=" + trainingInvitationId +
-                ", date=" + date +
-                ", sport=" + sport +
+        return "FriendshipInvitation{" +
+                "friendshipInvitationId=" + friendshipInvitationId +
+                ", sendAt=" + sendAt +
                 ", isAccepted=" + isAccepted +
                 ", sender=" + sender +
                 ", receiver=" + receiver +
