@@ -2,6 +2,7 @@ package pl.czajkowski.traintogether.user;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.czajkowski.traintogether.user.models.RegistrationRequest;
 import pl.czajkowski.traintogether.user.models.User;
 import pl.czajkowski.traintogether.user.models.UserDTO;
 
@@ -12,9 +13,16 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    @PostMapping
-    public ResponseEntity<UserDTO> register(User user) {
-        return ResponseEntity.ok(null);
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserDTO> register(@RequestBody RegistrationRequest request) {
+        UserDTO user = userService.register(request);
+        return ResponseEntity.created(URI.create("/users/" + user.userId())).body(user);
     }
 
     @GetMapping
