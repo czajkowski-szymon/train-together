@@ -23,12 +23,6 @@ import static pl.czajkowski.traintogether.user.models.Role.ADMIN;
 @EnableMethodSecurity
 public class SecurityFilterConfig {
 
-    private final AuthenticationManager authenticationManager;
-
-    public SecurityFilterConfig(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
-
     @Bean
     public SecurityFilterChain filter(HttpSecurity http) throws Exception {
         return http
