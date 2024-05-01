@@ -37,8 +37,7 @@ public class User implements UserDetails {
     @JoinColumn(name = "city_id")
     private City city;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @ManyToMany
@@ -135,7 +134,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.getName()));
+        return role.getAuthorities();
     }
 
     public List<Sport> getSports() {

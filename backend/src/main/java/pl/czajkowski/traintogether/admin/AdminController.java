@@ -1,19 +1,25 @@
 package pl.czajkowski.traintogether.admin;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/admin")
 public class AdminController {
 
-    @PatchMapping("/users/block/{userId}")
-    public ResponseEntity<?> blockUser(@PathVariable Integer userId) {
-        return ResponseEntity.ok(null);
+    @GetMapping
+    public String get() {
+        return "GET:: admin controller";
     }
 
-    @DeleteMapping("/users/{usersId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Integer usersId) {
-        return ResponseEntity.noContent().build();
+    @PatchMapping()
+    public ResponseEntity<?> blockUser() {
+        return ResponseEntity.ok("ADMIN::UPDATE");
+    }
+
+    @DeleteMapping()
+    public ResponseEntity<?> deleteUser() {
+        return ResponseEntity.ok("ADMIN::DELETE");
     }
 }

@@ -7,6 +7,8 @@ import pl.czajkowski.traintogether.user.models.Role;
 import pl.czajkowski.traintogether.user.models.User;
 import pl.czajkowski.traintogether.user.models.UserDTO;
 
+import static pl.czajkowski.traintogether.user.models.Role.ADMIN;
+
 @Service
 public class UserService {
 
@@ -14,28 +16,25 @@ public class UserService {
 
     private final CityRepository cityRepository;
 
-    private final RoleRepository roleRepository;
-
     private final UserMapper userMapper;
 
     private final PasswordEncoder encoder;
 
     public UserService(UserRepository userRepository,
                        CityRepository cityRepository,
-                       RoleRepository roleRepository,
                        UserMapper userMapper,
                        PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
-        this.roleRepository = roleRepository;
         this.userMapper = userMapper;
         this.encoder = encoder;
     }
 
-    public UserDTO register(RegistrationRequest request) {
+    public User register(RegistrationRequest request) {
         validateUsernameAndEmail(request.username(), request.email());
         User user = createUserFromRequest(request);
-        return userMapper.toUserDTO(userRepository.save(user));
+        return userRepository.save(user);
+//        return userMapper.toUserDTO(userRepository.save(user));
     }
 
     private User createUserFromRequest(RegistrationRequest request) {
@@ -47,7 +46,7 @@ public class UserService {
         user.setGender(request.gender());
         user.setBio(request.bio());
         user.setCity(cityRepository.findByName(request.city()).get());
-        user.setRole(roleRepository.findById(2).get());
+        user.setRole(ADMIN);
 
         return user;
     }

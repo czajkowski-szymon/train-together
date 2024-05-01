@@ -20,9 +20,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@RequestBody RegistrationRequest request) {
-        UserDTO user = userService.register(request);
-        return ResponseEntity.created(URI.create("/users/" + user.userId())).body(user);
+    public ResponseEntity<User> register(@RequestBody RegistrationRequest request) {
+        User user = userService.register(request);
+        return ResponseEntity.created(URI.create("/users/" + user.getUserId())).body(user);
     }
 
     @GetMapping
