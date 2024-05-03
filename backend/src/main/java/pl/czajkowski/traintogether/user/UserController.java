@@ -1,8 +1,10 @@
 package pl.czajkowski.traintogether.user;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.czajkowski.traintogether.user.models.RegistrationRequest;
+import pl.czajkowski.traintogether.user.models.UpdateUserRequest;
 import pl.czajkowski.traintogether.user.models.User;
 import pl.czajkowski.traintogether.user.models.UserDTO;
 
@@ -20,28 +22,29 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegistrationRequest request) {
-        User user = userService.register(request);
-        return ResponseEntity.created(URI.create("/users/" + user.getUserId())).body(user);
+    public ResponseEntity<UserDTO> register(@RequestBody RegistrationRequest request) {
+        UserDTO user = userService.register(request);
+        return ResponseEntity.created(URI.create("/users/" + user.userId())).body(user);
     }
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Integer userId) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(userService.getUser(userId));
     }
 
     @PutMapping
-    public ResponseEntity<UserDTO> updateUser(User user) {
-        return ResponseEntity.ok(null);
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UpdateUserRequest request, Authentication user) {
+        return ResponseEntity.ok(userService.updateUser(request, user.getName()));
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Integer userId) {
+    public ResponseEntity<?> deleteUser(@PathVariable Integer userId, Authentication user) {
+        userService.deleteUser(userId, user.getName());
         return ResponseEntity.noContent().build();
     }
 

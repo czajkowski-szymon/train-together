@@ -34,11 +34,11 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest request) {
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.email(), request.password())
+                new UsernamePasswordAuthenticationToken(request.username(), request.password())
         );
 
         return new LoginResponse(
-                mapper.toUserDTO((User)userService.loadUserByUsername(request.email())),
+                mapper.toUserDTO((User)userService.loadUserByUsername(request.username())),
                 service.generateToken(auth)
         );
     }
