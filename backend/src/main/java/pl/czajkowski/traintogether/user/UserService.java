@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.czajkowski.traintogether.exception.UserNotFoundException;
+import pl.czajkowski.traintogether.exception.UsernameOrEmailAlreadyExistsException;
 import pl.czajkowski.traintogether.user.models.*;
 
 import java.util.List;
@@ -47,28 +49,25 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDTO getUser(Integer userId) {
-        // TODO: Custom exception
         return userMapper.toUserDTO(userRepository.findById(userId).orElseThrow(
-                () -> new RuntimeException("User not found")
+                () -> new UserNotFoundException("User with id: %d not found".formatted(userId))
         ));
     }
 
     public UserDTO updateUser(UpdateUserRequest request, String email) {
+        validateUsernameAndEmail(request.username(), request.email());
         return userMapper.toUserDTO(retrieveAndUpdateUser(request, email));
     }
 
 
-    public void deleteUser(Integer userId, String username) {
-        User user = (User) loadUserByUsername(username);
-        validateUser(user, username);
-
-        userRepository.deleteById(userId);
+    public void deleteUser(String username) {
+        userRepository.deleteByUsername(username);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException("User with username: " + username + " not found")
+                () -> new UserNotFoundException("User with username: '%s' not found".formatted(username))
         );
     }
 
@@ -88,8 +87,6 @@ public class UserService implements UserDetailsService {
 
     private User retrieveAndUpdateUser(UpdateUserRequest request, String username) {
         User user = (User) loadUserByUsername(username);
-        validateUser(user, username);
-
         user.setUsername(request.username());
         user.setEmail(request.username());
         user.setDateOfBirth(request.dateOfBirth());
@@ -102,14 +99,9 @@ public class UserService implements UserDetailsService {
 
     private void validateUsernameAndEmail(String username, String email) {
         if (userRepository.existsByUsernameOrEmail(username, email)) {
-            throw new RuntimeException("User with username: " + username + " or email: " + email + " already exists");
-        }
-    }
-
-    private void validateUser(User user, String username) {
-        if (!user.getUsername().equals(username)) {
-            // TODO: Custom exception
-            throw new RuntimeException("User can`t update information about other user");
+            throw new UsernameOrEmailAlreadyExistsException(
+                    "User with username: '%s' or email: '%s' already exists".formatted(username, email)
+            );
         }
     }
 }

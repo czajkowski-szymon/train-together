@@ -42,9 +42,9 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUser(request, user.getName()));
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Integer userId, Authentication user) {
-        userService.deleteUser(userId, user.getName());
+    @DeleteMapping()
+    public ResponseEntity<?> deleteUser(Authentication user) {
+        userService.deleteUser(user.getName());
         return ResponseEntity.noContent().build();
     }
 
