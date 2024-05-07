@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import pl.czajkowski.traintogether.training.TrainingInvitationRepository;
 
 import java.time.LocalDateTime;
 
@@ -28,6 +29,32 @@ public class ApiExceptionHandler {
     @ExceptionHandler(UsernameOrEmailAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleException(UsernameOrEmailAlreadyExistsException e,
                                                          HttpServletRequest request) {
+        HttpStatus status = e.getClass().getAnnotation(ResponseStatus.class).code();
+        ErrorResponse response = new ErrorResponse(
+                request.getRequestURI(),
+                status.value(),
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(response, status);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(ResourceNotFoundException e, HttpServletRequest request) {
+        HttpStatus status = e.getClass().getAnnotation(ResponseStatus.class).code();
+        ErrorResponse response = new ErrorResponse(
+                request.getRequestURI(),
+                status.value(),
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(response, status);
+    }
+
+    @ExceptionHandler(TrainingOwnershipException.class)
+    public ResponseEntity<ErrorResponse> handleException(TrainingOwnershipException e, HttpServletRequest request) {
         HttpStatus status = e.getClass().getAnnotation(ResponseStatus.class).code();
         ErrorResponse response = new ErrorResponse(
                 request.getRequestURI(),
