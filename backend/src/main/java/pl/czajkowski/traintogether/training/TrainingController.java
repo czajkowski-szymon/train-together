@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.czajkowski.traintogether.training.models.Training;
+import pl.czajkowski.traintogether.training.models.TrainingDTO;
 
 import java.net.URI;
 
@@ -18,12 +19,12 @@ public class TrainingController {
     }
 
     @GetMapping("/{trainingId}")
-    public ResponseEntity<Training> getTraining(@PathVariable Integer trainingId, Authentication user) {
+    public ResponseEntity<TrainingDTO> getTraining(@PathVariable Integer trainingId, Authentication user) {
         return ResponseEntity.ok(trainingService.getTraining(trainingId, user.getName()));
     }
 
     @PutMapping
-    public ResponseEntity<Training> updateTraining(@RequestBody Training training, Authentication user) {
+    public ResponseEntity<TrainingDTO> updateTraining(@RequestBody Training training, Authentication user) {
         return ResponseEntity.ok(trainingService.updateTraining(training, user.getName()));
     }
 

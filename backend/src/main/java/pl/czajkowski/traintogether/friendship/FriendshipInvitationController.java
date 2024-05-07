@@ -4,7 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitation;
+import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationDTO;
 import pl.czajkowski.traintogether.training.models.TrainingInvitation;
+import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
 
 import java.net.URI;
 import java.util.List;
@@ -20,24 +22,24 @@ public class FriendshipInvitationController {
     }
 
     @PostMapping
-    public ResponseEntity<FriendshipInvitation> addFriendshipInvitation(@RequestBody FriendshipInvitation invitation) {
+    public ResponseEntity<FriendshipInvitationDTO> addFriendshipInvitation(@RequestBody FriendshipInvitation invitation) {
         return ResponseEntity.created(URI.create( "/api/v1/trainings/invitations"))
                 .body(friendshipInvitationService.addFriendshipInvitation(invitation));
     }
 
     @GetMapping("/{invitationId}")
-    public ResponseEntity<FriendshipInvitation> getFriendshipInvitation(@PathVariable Integer invitationId,
+    public ResponseEntity<FriendshipInvitationDTO> getFriendshipInvitation(@PathVariable Integer invitationId,
                                                                     Authentication user) {
         return ResponseEntity.ok(friendshipInvitationService.getFriendshipInvitation(invitationId, user.getName()));
     }
 
     @GetMapping("/sent")
-    public ResponseEntity<List<TrainingInvitation>> getSentFriendshipInvitationsForUser(Authentication user) {
+    public ResponseEntity<List<FriendshipInvitationDTO>> getSentFriendshipInvitationsForUser(Authentication user) {
         return ResponseEntity.ok(friendshipInvitationService.getSentFriendshipInvitationsForUserString(user.getName()));
     }
 
     @GetMapping("/received")
-    public ResponseEntity<List<TrainingInvitation>> getReceivedFriendshipInvitationsForUser(Authentication user) {
+    public ResponseEntity<List<FriendshipInvitationDTO>> getReceivedFriendshipInvitationsForUser(Authentication user) {
         return ResponseEntity.ok(
                 friendshipInvitationService.getReceivedFriendshipInvitationsForUserString(user.getName())
         );

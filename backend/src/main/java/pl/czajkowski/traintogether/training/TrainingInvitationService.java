@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import pl.czajkowski.traintogether.exception.ResourceNotFoundException;
 import pl.czajkowski.traintogether.exception.TrainingOwnershipException;
 import pl.czajkowski.traintogether.training.models.TrainingInvitation;
+import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
+import pl.czajkowski.traintogether.user.UserMapper;
 
 import java.util.List;
 
@@ -12,15 +14,19 @@ public class TrainingInvitationService {
 
     private final TrainingInvitationRepository trainingInvitationRepository;
 
-    public TrainingInvitationService(TrainingInvitationRepository trainingInvitationRepository) {
+    private final TrainingMapper trainingMapper;
+
+    public TrainingInvitationService(TrainingInvitationRepository trainingInvitationRepository,
+                                     TrainingMapper trainingMapper) {
         this.trainingInvitationRepository = trainingInvitationRepository;
+        this.trainingMapper = trainingMapper;
     }
 
-    public TrainingInvitation addTrainingInvitation(TrainingInvitation invitation) {
-        return trainingInvitationRepository.save(invitation);
+    public TrainingInvitationDTO addTrainingInvitation(TrainingInvitation invitation) {
+        return trainingMapper.toTrainingInvitationDTO(trainingInvitationRepository.save(invitation));
     }
 
-    public TrainingInvitation getTrainingInvitation(Integer trainingInvitationId, String username) {
+    public TrainingInvitationDTO getTrainingInvitation(Integer trainingInvitationId, String username) {
         TrainingInvitation invitation = trainingInvitationRepository.findById(trainingInvitationId)
                 .orElseThrow(
                         () -> new ResourceNotFoundException(
@@ -29,16 +35,22 @@ public class TrainingInvitationService {
                 );
         validateTrainingInvitationOwnership(invitation, username);
 
-        return invitation;
+        return trainingMapper.toTrainingInvitationDTO(invitation);
     }
 
-    public List<TrainingInvitation> getSentTrainingInvitationsForUserString(String username) {
-        return trainingInvitationRepository.findAllSentTrainingInvitationsByUsername(username);
+    public List<TrainingInvitationDTO> getSentTrainingInvitationsForUserString(String username) {
+        return trainingInvitationRepository.findAllSentTrainingInvitationsByUsername(username)
+                .stream()
+                .map(trainingMapper::toTrainingInvitationDTO)
+                .toList();
     }
 
 
-    public List<TrainingInvitation> getReceivedTrainingInvitationsForUserString(String username) {
-        return trainingInvitationRepository.findAllReceivedTrainingInvitationsByUsername(username);
+    public List<TrainingInvitationDTO> getReceivedTrainingInvitationsForUserString(String username) {
+        return trainingInvitationRepository.findAllReceivedTrainingInvitationsByUsername(username)
+                .stream()
+                .map(trainingMapper::toTrainingInvitationDTO)
+                .toList();
     }
 
     public void deleteTrainingInvitation(Integer invitationId, String username) {

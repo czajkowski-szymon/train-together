@@ -4,26 +4,30 @@ import org.springframework.stereotype.Service;
 import pl.czajkowski.traintogether.exception.ResourceNotFoundException;
 import pl.czajkowski.traintogether.exception.TrainingOwnershipException;
 import pl.czajkowski.traintogether.training.models.Training;
+import pl.czajkowski.traintogether.training.models.TrainingDTO;
 
 @Service
 public class TrainingService {
 
     private final TrainingRepository trainingRepository;
 
-    public TrainingService(TrainingRepository trainingRepository) {
+    private final TrainingMapper trainingMapper;
+
+    public TrainingService(TrainingRepository trainingRepository, TrainingMapper trainingMapper) {
         this.trainingRepository = trainingRepository;
+        this.trainingMapper = trainingMapper;
     }
 
-    public Training getTraining(Integer trainingId, String username) {
+    public TrainingDTO getTraining(Integer trainingId, String username) {
         Training training = trainingRepository.findById(trainingId).orElseThrow(
                 () -> new ResourceNotFoundException("Training with id: %d not found".formatted(trainingId))
         );
         validateTrainingOwnership(training, username);
 
-        return training;
+        return trainingMapper.toTrainingDTO(training);
     }
 
-    public Training updateTraining(Training training, String username) {
+    public TrainingDTO updateTraining(Training training, String username) {
         Training trainingFromDb = trainingRepository.findById(training.getTrainingId()).orElseThrow(
                 () -> new ResourceNotFoundException(
                         "Training with id: %d not found".formatted(training.getTrainingId())
@@ -31,7 +35,7 @@ public class TrainingService {
         );
         validateTrainingOwnership(training, username);
 
-        return trainingRepository.save(training);
+        return trainingMapper.toTrainingDTO(trainingRepository.save(training));
     }
 
     public void deleteTraining(Integer trainingId, String username) {

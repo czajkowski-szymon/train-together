@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.czajkowski.traintogether.training.models.Training;
 import pl.czajkowski.traintogether.training.models.TrainingInvitation;
+import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
 
 import java.net.URI;
 import java.util.List;
@@ -20,24 +21,24 @@ public class TrainingInvitationController {
     }
 
     @PostMapping
-    public ResponseEntity<TrainingInvitation> addTrainingInvitation(TrainingInvitation invitation) {
+    public ResponseEntity<TrainingInvitationDTO> addTrainingInvitation(TrainingInvitation invitation) {
         return ResponseEntity.created(URI.create( "/api/v1/trainings/invitations"))
                 .body(trainingInvitationService.addTrainingInvitation(invitation));
     }
 
     @GetMapping("/{invitationId}")
-    public ResponseEntity<TrainingInvitation> getTrainingInvitation(@PathVariable Integer invitationId,
+    public ResponseEntity<TrainingInvitationDTO> getTrainingInvitation(@PathVariable Integer invitationId,
                                                                     Authentication user) {
         return ResponseEntity.ok(trainingInvitationService.getTrainingInvitation(invitationId, user.getName()));
     }
 
     @GetMapping("/sent")
-    public ResponseEntity<List<TrainingInvitation>> getSentTrainingInvitationsForUser(Authentication user) {
+    public ResponseEntity<List<TrainingInvitationDTO>> getSentTrainingInvitationsForUser(Authentication user) {
         return ResponseEntity.ok(trainingInvitationService.getSentTrainingInvitationsForUserString(user.getName()));
     }
 
     @GetMapping("/received")
-    public ResponseEntity<List<TrainingInvitation>> getReceivedTrainingInvitationsForUser(Authentication user) {
+    public ResponseEntity<List<TrainingInvitationDTO>> getReceivedTrainingInvitationsForUser(Authentication user) {
         return ResponseEntity.ok(trainingInvitationService.getReceivedTrainingInvitationsForUserString(user.getName()));
     }
 

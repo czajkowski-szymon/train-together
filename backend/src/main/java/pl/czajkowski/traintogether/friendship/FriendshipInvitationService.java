@@ -4,7 +4,10 @@ import org.springframework.stereotype.Service;
 import pl.czajkowski.traintogether.exception.ResourceNotFoundException;
 import pl.czajkowski.traintogether.exception.TrainingOwnershipException;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitation;
+import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationDTO;
 import pl.czajkowski.traintogether.training.models.TrainingInvitation;
+import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
+import pl.czajkowski.traintogether.user.UserMapper;
 
 import java.util.List;
 
@@ -13,15 +16,19 @@ public class FriendshipInvitationService {
 
     private final FriendshipInvitationRepository friendshipInvitationRepository;
 
-    public FriendshipInvitationService(FriendshipInvitationRepository friendshipInvitationRepository) {
+    private final FriendshipMapper friendshipMapper;
+
+    public FriendshipInvitationService(FriendshipInvitationRepository friendshipInvitationRepository,
+                                       FriendshipMapper friendshipMapper) {
         this.friendshipInvitationRepository = friendshipInvitationRepository;
+        this.friendshipMapper = friendshipMapper;
     }
 
-    public FriendshipInvitation addFriendshipInvitation(FriendshipInvitation invitation) {
-        return friendshipInvitationRepository.save(invitation);
+    public FriendshipInvitationDTO addFriendshipInvitation(FriendshipInvitation invitation) {
+        return friendshipMapper.toFriendshipInvitationDTO(friendshipInvitationRepository.save(invitation));
     }
 
-    public FriendshipInvitation getFriendshipInvitation(Integer friendshipInvitationId, String username) {
+    public FriendshipInvitationDTO getFriendshipInvitation(Integer friendshipInvitationId, String username) {
         FriendshipInvitation invitation = friendshipInvitationRepository.findById(friendshipInvitationId)
                 .orElseThrow(
                         () -> new ResourceNotFoundException(
@@ -31,16 +38,22 @@ public class FriendshipInvitationService {
 
         validateFriendshipInvitationOwnership(invitation, username);
 
-        return invitation;
+        return friendshipMapper.toFriendshipInvitationDTO(invitation);
     }
 
-    public List<TrainingInvitation> getSentFriendshipInvitationsForUserString(String username) {
-        return friendshipInvitationRepository.findAllSentFriendshipInvitationsByUsername(username);
+    public List<FriendshipInvitationDTO> getSentFriendshipInvitationsForUserString(String username) {
+        return friendshipInvitationRepository.findAllSentFriendshipInvitationsByUsername(username)
+                .stream()
+                .map(friendshipMapper::toFriendshipInvitationDTO)
+                .toList();
     }
 
 
-    public List<TrainingInvitation> getReceivedFriendshipInvitationsForUserString(String username) {
-        return friendshipInvitationRepository.findAllReceivedFriendshipInvitationsByUsername(username);
+    public List<FriendshipInvitationDTO> getReceivedFriendshipInvitationsForUserString(String username) {
+        return friendshipInvitationRepository.findAllReceivedFriendshipInvitationsByUsername(username)
+                .stream()
+                .map(friendshipMapper::toFriendshipInvitationDTO)
+                .toList();
     }
 
     public void deleteFriendshipInvitation(Integer invitationId, String username) {

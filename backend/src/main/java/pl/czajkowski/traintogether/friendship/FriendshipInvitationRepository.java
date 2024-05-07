@@ -12,8 +12,8 @@ import java.util.List;
 public interface FriendshipInvitationRepository extends JpaRepository<FriendshipInvitation, Integer> {
 
     @Query("SELECT f FROM FriendshipInvitation f WHERE f.sender = ?1")
-    List<TrainingInvitation> findAllSentFriendshipInvitationsByUsername(String username);
+    List<FriendshipInvitation> findAllSentFriendshipInvitationsByUsername(String username);
 
     @Query("SELECT f FROM FriendshipInvitation f WHERE f.receiver = ?1")
-    List<TrainingInvitation> findAllReceivedFriendshipInvitationsByUsername(String username);
+    List<FriendshipInvitation> findAllReceivedFriendshipInvitationsByUsername(String username);
 }
