@@ -26,9 +26,9 @@ public class TrainingInvitationController {
     }
 
     @GetMapping("/{invitationId}")
-    public ResponseEntity<TrainingInvitation> getTrainingInvitation(@PathVariable Integer trainingInvitationId,
+    public ResponseEntity<TrainingInvitation> getTrainingInvitation(@PathVariable Integer invitationId,
                                                                     Authentication user) {
-        return ResponseEntity.ok(trainingInvitationService.getTrainingInvitation(trainingInvitationId, user.getName()));
+        return ResponseEntity.ok(trainingInvitationService.getTrainingInvitation(invitationId, user.getName()));
     }
 
     @GetMapping("/sent")
