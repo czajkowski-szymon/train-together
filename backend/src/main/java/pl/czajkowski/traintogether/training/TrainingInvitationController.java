@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.czajkowski.traintogether.training.models.Training;
 import pl.czajkowski.traintogether.training.models.TrainingInvitation;
 import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
+import pl.czajkowski.traintogether.training.models.TrainingInvitationRequest;
 
 import java.net.URI;
 import java.util.List;
@@ -21,7 +22,7 @@ public class TrainingInvitationController {
     }
 
     @PostMapping
-    public ResponseEntity<TrainingInvitationDTO> addTrainingInvitation(TrainingInvitation invitation) {
+    public ResponseEntity<TrainingInvitationDTO> addTrainingInvitation(TrainingInvitationRequest invitation) {
         return ResponseEntity.created(URI.create( "/api/v1/trainings/invitations"))
                 .body(trainingInvitationService.addTrainingInvitation(invitation));
     }

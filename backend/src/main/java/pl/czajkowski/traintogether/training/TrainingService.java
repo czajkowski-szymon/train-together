@@ -3,8 +3,12 @@ package pl.czajkowski.traintogether.training;
 import org.springframework.stereotype.Service;
 import pl.czajkowski.traintogether.exception.ResourceNotFoundException;
 import pl.czajkowski.traintogether.exception.TrainingOwnershipException;
+import pl.czajkowski.traintogether.exception.UserNotFoundException;
+import pl.czajkowski.traintogether.sport.SportRepository;
 import pl.czajkowski.traintogether.training.models.Training;
 import pl.czajkowski.traintogether.training.models.TrainingDTO;
+import pl.czajkowski.traintogether.training.models.TrainingUpdateRequest;
+import pl.czajkowski.traintogether.user.UserRepository;
 
 @Service
 public class TrainingService {
@@ -13,9 +17,18 @@ public class TrainingService {
 
     private final TrainingMapper trainingMapper;
 
-    public TrainingService(TrainingRepository trainingRepository, TrainingMapper trainingMapper) {
+    private final SportRepository sportRepository;
+
+    private final UserRepository userRepository;
+
+    public TrainingService(TrainingRepository trainingRepository,
+                           TrainingMapper trainingMapper,
+                           SportRepository sportRepository,
+                           UserRepository userRepository) {
         this.trainingRepository = trainingRepository;
         this.trainingMapper = trainingMapper;
+        this.sportRepository = sportRepository;
+        this.userRepository = userRepository;
     }
 
     public TrainingDTO getTraining(Integer trainingId, String username) {
@@ -27,13 +40,25 @@ public class TrainingService {
         return trainingMapper.toTrainingDTO(training);
     }
 
-    public TrainingDTO updateTraining(Training training, String username) {
-        Training trainingFromDb = trainingRepository.findById(training.getTrainingId()).orElseThrow(
+    public TrainingDTO updateTraining(TrainingUpdateRequest request, String username) {
+        Training training = trainingRepository.findById(request.trainingId()).orElseThrow(
                 () -> new ResourceNotFoundException(
-                        "Training with id: %d not found".formatted(training.getTrainingId())
+                        "Training with id: %d not found".formatted(request.trainingId())
                 )
         );
         validateTrainingOwnership(training, username);
+
+        training.setDate(request.date());
+        training.setSport(sportRepository.getSportByName(request.sport()).orElseThrow(
+                () -> new ResourceNotFoundException("Sport not found")
+        ));
+        training.setParticipantOne(userRepository.findById(request.participantOneId()).orElseThrow(
+                () -> new UserNotFoundException("User with id: %d not found".formatted(request.participantOneId()))
+        ));
+        training.setParticipantTwo(userRepository.findById(request.participantTwoId()).orElseThrow(
+                () -> new UserNotFoundException("User with id: %d not found".formatted(request.participantTwoId()))
+        ));
+
 
         return trainingMapper.toTrainingDTO(trainingRepository.save(training));
     }

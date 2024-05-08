@@ -3,9 +3,13 @@ package pl.czajkowski.traintogether.training;
 import org.springframework.stereotype.Service;
 import pl.czajkowski.traintogether.exception.ResourceNotFoundException;
 import pl.czajkowski.traintogether.exception.TrainingOwnershipException;
+import pl.czajkowski.traintogether.exception.UserNotFoundException;
 import pl.czajkowski.traintogether.training.models.TrainingInvitation;
 import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
+import pl.czajkowski.traintogether.training.models.TrainingInvitationRequest;
 import pl.czajkowski.traintogether.user.UserMapper;
+import pl.czajkowski.traintogether.user.UserRepository;
+import pl.czajkowski.traintogether.user.UserService;
 
 import java.util.List;
 
@@ -14,15 +18,30 @@ public class TrainingInvitationService {
 
     private final TrainingInvitationRepository trainingInvitationRepository;
 
+    private final UserRepository userRepository;
+
     private final TrainingMapper trainingMapper;
 
     public TrainingInvitationService(TrainingInvitationRepository trainingInvitationRepository,
+                                     UserRepository userRepository,
                                      TrainingMapper trainingMapper) {
         this.trainingInvitationRepository = trainingInvitationRepository;
+        this.userRepository = userRepository;
         this.trainingMapper = trainingMapper;
     }
 
-    public TrainingInvitationDTO addTrainingInvitation(TrainingInvitation invitation) {
+    public TrainingInvitationDTO addTrainingInvitation(TrainingInvitationRequest request) {
+        TrainingInvitation invitation = new TrainingInvitation();
+        invitation.setDate(request.date());
+        invitation.setSport(request.sport());
+        invitation.setAccepted(false);
+        invitation.setSender(userRepository.findById(request.senderId()).orElseThrow(
+                () -> new UserNotFoundException("User wit id: %d not found".formatted(request.senderId()))
+        ));
+        invitation.setReceiver(userRepository.findById(request.receiverId()).orElseThrow(
+                () -> new UserNotFoundException("User wit id: %d not found".formatted(request.receiverId()))
+        ));
+
         return trainingMapper.toTrainingInvitationDTO(trainingInvitationRepository.save(invitation));
     }
 

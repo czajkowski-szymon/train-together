@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitation;
-import pl.czajkowski.traintogether.training.models.TrainingInvitation;
 
 import java.util.List;
 

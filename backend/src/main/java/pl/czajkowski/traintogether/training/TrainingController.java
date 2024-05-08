@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.czajkowski.traintogether.training.models.Training;
 import pl.czajkowski.traintogether.training.models.TrainingDTO;
+import pl.czajkowski.traintogether.training.models.TrainingUpdateRequest;
 
 import java.net.URI;
 
@@ -24,7 +25,7 @@ public class TrainingController {
     }
 
     @PutMapping
-    public ResponseEntity<TrainingDTO> updateTraining(@RequestBody Training training, Authentication user) {
+    public ResponseEntity<TrainingDTO> updateTraining(@RequestBody TrainingUpdateRequest training, Authentication user) {
         return ResponseEntity.ok(trainingService.updateTraining(training, user.getName()));
     }
 

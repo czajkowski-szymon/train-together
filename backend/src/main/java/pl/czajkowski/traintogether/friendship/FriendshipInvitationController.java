@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitation;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationDTO;
+import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationRequest;
 import pl.czajkowski.traintogether.training.models.TrainingInvitation;
 import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
 
@@ -22,7 +23,9 @@ public class FriendshipInvitationController {
     }
 
     @PostMapping
-    public ResponseEntity<FriendshipInvitationDTO> addFriendshipInvitation(@RequestBody FriendshipInvitation invitation) {
+    public ResponseEntity<FriendshipInvitationDTO> addFriendshipInvitation(
+            @RequestBody FriendshipInvitationRequest invitation
+    ) {
         return ResponseEntity.created(URI.create( "/api/v1/trainings/invitations"))
                 .body(friendshipInvitationService.addFriendshipInvitation(invitation));
     }

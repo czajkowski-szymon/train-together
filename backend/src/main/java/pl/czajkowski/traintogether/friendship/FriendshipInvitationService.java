@@ -3,12 +3,16 @@ package pl.czajkowski.traintogether.friendship;
 import org.springframework.stereotype.Service;
 import pl.czajkowski.traintogether.exception.ResourceNotFoundException;
 import pl.czajkowski.traintogether.exception.TrainingOwnershipException;
+import pl.czajkowski.traintogether.exception.UserNotFoundException;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitation;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationDTO;
+import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationRequest;
 import pl.czajkowski.traintogether.training.models.TrainingInvitation;
 import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
 import pl.czajkowski.traintogether.user.UserMapper;
+import pl.czajkowski.traintogether.user.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,15 +20,29 @@ public class FriendshipInvitationService {
 
     private final FriendshipInvitationRepository friendshipInvitationRepository;
 
+    private final UserRepository userRepository;
+
     private final FriendshipMapper friendshipMapper;
 
     public FriendshipInvitationService(FriendshipInvitationRepository friendshipInvitationRepository,
+                                       UserRepository userRepository,
                                        FriendshipMapper friendshipMapper) {
         this.friendshipInvitationRepository = friendshipInvitationRepository;
+        this.userRepository = userRepository;
         this.friendshipMapper = friendshipMapper;
     }
 
-    public FriendshipInvitationDTO addFriendshipInvitation(FriendshipInvitation invitation) {
+    public FriendshipInvitationDTO addFriendshipInvitation(FriendshipInvitationRequest request) {
+        FriendshipInvitation invitation = new FriendshipInvitation();
+        invitation.setSendAt(LocalDateTime.now());
+        invitation.setAccepted(false);
+        invitation.setSender(userRepository.findById(request.senderId()).orElseThrow(
+                () -> new UserNotFoundException("User wit id: %d not found".formatted(request.senderId()))
+        ));
+        invitation.setReceiver(userRepository.findById(request.receiverId()).orElseThrow(
+                () -> new UserNotFoundException("User wit id: %d not found".formatted(request.receiverId()))
+        ));
+
         return friendshipMapper.toFriendshipInvitationDTO(friendshipInvitationRepository.save(invitation));
     }
 
