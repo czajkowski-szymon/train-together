@@ -3,8 +3,6 @@ package pl.czajkowski.traintogether.training;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import pl.czajkowski.traintogether.training.models.Training;
-import pl.czajkowski.traintogether.training.models.TrainingInvitation;
 import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
 import pl.czajkowski.traintogether.training.models.TrainingInvitationRequest;
 

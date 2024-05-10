@@ -1,7 +1,6 @@
 package pl.czajkowski.traintogether.friendship.models;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import pl.czajkowski.traintogether.user.models.User;
 
 import java.time.LocalDateTime;

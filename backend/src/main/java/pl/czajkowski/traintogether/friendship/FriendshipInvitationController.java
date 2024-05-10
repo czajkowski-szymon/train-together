@@ -3,11 +3,8 @@ package pl.czajkowski.traintogether.friendship;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import pl.czajkowski.traintogether.friendship.models.FriendshipInvitation;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationDTO;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationRequest;
-import pl.czajkowski.traintogether.training.models.TrainingInvitation;
-import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
 
 import java.net.URI;
 import java.util.List;

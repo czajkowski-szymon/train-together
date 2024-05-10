@@ -7,9 +7,7 @@ import pl.czajkowski.traintogether.exception.UserNotFoundException;
 import pl.czajkowski.traintogether.training.models.TrainingInvitation;
 import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
 import pl.czajkowski.traintogether.training.models.TrainingInvitationRequest;
-import pl.czajkowski.traintogether.user.UserMapper;
 import pl.czajkowski.traintogether.user.UserRepository;
-import pl.czajkowski.traintogether.user.UserService;
 
 import java.util.List;
 

@@ -7,9 +7,6 @@ import pl.czajkowski.traintogether.exception.UserNotFoundException;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitation;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationDTO;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationRequest;
-import pl.czajkowski.traintogether.training.models.TrainingInvitation;
-import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
-import pl.czajkowski.traintogether.user.UserMapper;
 import pl.czajkowski.traintogether.user.UserRepository;
 
 import java.time.LocalDateTime;

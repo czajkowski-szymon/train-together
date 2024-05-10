@@ -1,8 +1,6 @@
 package pl.czajkowski.traintogether.user;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.czajkowski.traintogether.user.models.RegistrationRequest;
 import pl.czajkowski.traintogether.user.models.User;
 import pl.czajkowski.traintogether.user.models.UserDTO;
 

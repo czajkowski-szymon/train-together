@@ -5,7 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pl.czajkowski.traintogether.user.models.RegistrationRequest;
 import pl.czajkowski.traintogether.user.models.UpdateUserRequest;
-import pl.czajkowski.traintogether.user.models.User;
 import pl.czajkowski.traintogether.user.models.UserDTO;
 
 import java.net.URI;
