@@ -21,7 +21,6 @@ $light-gray: #DADADA;
       
       input {
         font-size: 1em;
-        // font-weight: 300;
         width: calc(100% - 2em - 2px);
         line-height: 2.5em;
         padding: 0 1em;
@@ -39,7 +38,7 @@ $light-gray: #DADADA;
 
       input::placeholder {
         color: $font-gray;
-    }
+      }
     }
   
     .profiles {
@@ -47,74 +46,6 @@ $light-gray: #DADADA;
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 3em;
       padding: 0;
-
-      .profile-card {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center;
-        border: 2px solid $light-gray;
-        border-radius: 20px;
-        box-shadow: 5px 5px 20px -7px rgba(0, 0, 0, 0.3);
-        font-size: 1rem;
-        transition: transform 0.3s ease;
-
-        .profile-picture {
-          width: 9rem;
-          height: 9rem;
-          margin-top: 1rem;
-          background-size: cover;
-
-          img {
-            height: 100%;
-            width: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-          }
-        }
-  
-        .name {
-          font-size: 1.5rem;
-          color: $main-green;
-
-          p {
-            margin: .5em 0 0 0;
-          }
-        }
-  
-        .city {
-          font-size: 1em;
-          color: $font-gray;
-
-          p {
-            margin: .5em 0;
-          }
-        }
-  
-        .profile-button {
-          width: 50%;
-
-          button {
-            font-size: 1em;
-            font-weight: 100;
-            width: 100%;
-            line-height: 2.5em;
-            padding: 0;
-            margin: 1em 0 1.5em 0;
-            border-radius: 20px;
-            background-color: $main-green;
-            color: white;
-            border: none;
-            box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
-            letter-spacing: .2em;
-            transition: transform 0.3s ease;
-          }
-  
-          button:hover {
-            transform: scale(1.025);
-          }
-        }
-      }
     }
   }
 }

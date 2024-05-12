@@ -17,6 +17,6 @@ export class LoginComponent {
   });
 
   onSubmit(): void {
-    console.log('onSubmit method');
+    
   }
 }

@@ -6,20 +6,7 @@
     </section>
     <section class="profiles">
       @for (user of users; track user.userId) {
-        <div class="profile-card">
-          <div class="profile-picture">
-            <img src="../../assets/img/profile-pictures/{{user.profilePictureId}}" alt="Profile picture" />
-          </div>
-          <div class="name">
-            <p>{{ user.firstName }}</p>
-          </div>
-          <div class="city">
-            <p>{{ user.city }}</p>
-          </div>
-          <div class="profile-button">
-            <button>PROFILE</button>
-          </div>
-        </div>
+        <app-profile-card [user]="user"></app-profile-card>
       }
     </section>
   </main>
