@@ -89,6 +89,7 @@ public class UserService implements UserDetailsService {
         User user = (User) loadUserByUsername(username);
         user.setUsername(request.username());
         user.setEmail(request.username());
+        user.setFirstName(request.firstName());
         user.setDateOfBirth(request.dateOfBirth());
         user.setGender(request.gender());
         user.setBio(request.username());

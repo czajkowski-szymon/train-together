@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public record UpdateUserRequest(
         String username,
         String email,
+        String firstName,
         LocalDate dateOfBirth,
         Gender gender,
         String bio,

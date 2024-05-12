@@ -9,6 +9,7 @@ public record UserDTO(
         Integer userId,
         String username,
         String email,
+        String firstName,
         LocalDate dateOfBirth,
         Gender gender,
         String bio,
