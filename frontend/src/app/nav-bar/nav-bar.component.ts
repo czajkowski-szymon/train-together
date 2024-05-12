@@ -16,7 +16,6 @@ export class NavBarComponent {
   logout(): void {
     localStorage.setItem('token', '');
     this.authService.currentUserSignal.set(null);
-    this.authService.setAuthenticated(false);
     this.router.navigateByUrl("/login");
   }
 }

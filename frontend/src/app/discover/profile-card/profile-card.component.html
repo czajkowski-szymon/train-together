@@ -12,6 +12,6 @@
     <p>{{ user?.city?.name }}</p>
   </div>
   <div class="profile-button">
-    <button>PROFILE</button>
+    <button [routerLink]="['/', user?.username]">PROFILE</button>
   </div>
 </div>
