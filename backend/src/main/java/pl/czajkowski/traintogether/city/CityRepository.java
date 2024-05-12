@@ -1,8 +1,8 @@
-package pl.czajkowski.traintogether.user;
+package pl.czajkowski.traintogether.city;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.czajkowski.traintogether.user.models.City;
+import pl.czajkowski.traintogether.city.models.City;
 
 import java.util.Optional;
 

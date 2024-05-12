@@ -1,4 +1,4 @@
-package pl.czajkowski.traintogether.user.models;
+package pl.czajkowski.traintogether.city.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
