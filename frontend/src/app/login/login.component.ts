@@ -27,7 +27,6 @@ export class LoginComponent {
     .subscribe(response => {
       localStorage.setItem('token', response.token);
       this.authService.currentUserSignal.set(response.user);
-      this.authService.setAuthenticated(true);
       this.router.navigateByUrl('/discover');
     });
   }

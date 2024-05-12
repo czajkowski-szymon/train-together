@@ -49,9 +49,9 @@ public class UserService implements UserDetailsService {
                 .toList();
     }
 
-    public UserDTO getUser(Integer userId) {
-        return userMapper.toUserDTO(userRepository.findById(userId).orElseThrow(
-                () -> new UserNotFoundException("User with id: %d not found".formatted(userId))
+    public UserDTO getUserByUsername(String username) {
+        return userMapper.toUserDTO(userRepository.findByUsername(username).orElseThrow(
+                () -> new UserNotFoundException("User with username: %s not found".formatted(username))
         ));
     }
 

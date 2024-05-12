@@ -18,4 +18,8 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.usersApiUrl);
   }
+
+  getUserByUsername(username: string): Observable<User> {
+    return this.http.get<User>(this.usersApiUrl + '/' + username);
+  }
 }

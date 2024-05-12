@@ -10,7 +10,6 @@ import { User } from '../../interfaces/user.interface';
 })
 export class AuthService {
   private authApiUrl = "http://localhost:8080/api/v1/auth";
-  private authenticated = false;
   http: HttpClient = inject(HttpClient);
   currentUserSignal = signal<User | undefined | null>(undefined);
 
@@ -18,11 +17,10 @@ export class AuthService {
     return this.http.post<LoginResponse>(this.authApiUrl + '/login', request)
   }
 
-  setAuthenticated(authenticated: boolean): void {
-    this.authenticated = authenticated;
-  }
-
   isAuthenticated(): boolean {
-    return this.authenticated;
+    if (localStorage.getItem('token')?.length! > 0) {
+      return true;
+    }
+    return false;
   }
 }
