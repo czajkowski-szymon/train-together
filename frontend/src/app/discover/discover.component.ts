@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import { NgFor } from '@angular/common';
 import { ProfileCardComponent } from './profile-card/profile-card.component';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/user/user.service';
 import { User } from '../interfaces/user.interface';
 
 @Component({

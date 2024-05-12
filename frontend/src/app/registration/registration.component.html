@@ -25,6 +25,30 @@
       <div class="field">
         <textarea formControlName="bio" placeholder="Bio" cols="21" rows="10"></textarea>
       </div>
+      <div class="field">
+        <select id="gender" formControlName="gender">
+          <option value="" disabled selected hidden>Gender</option>
+          <option value="FEMALE">Female</option>
+          <option value="MALE">Male</option>
+        </select>
+      </div>
+      <div class="field"> 
+        <input 
+          type="text" 
+          onfocus="this.type='date'" 
+          onblur="this.type='text'" 
+          formControlName="dateOfBirth" 
+          placeholder="Birthday"
+        >
+      </div>
+      <div class="field">
+        <select id="city" formControlName="city">
+          <option value="" disabled selected hidden>City</option>
+          @for (city of cities; track $index) {
+              <option value="{{ city.name }}">{{ city.name }}</option>
+          }
+        </select>
+      </div>
 
       <div class="button">
         <button type="submit">SIGN UP</button>

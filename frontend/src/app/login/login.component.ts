@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,12 +12,23 @@ import { RouterModule } from '@angular/router';
 })
 export class LoginComponent {
   fb: FormBuilder = inject(FormBuilder);
+  authService: AuthService = inject(AuthService);
+  router: Router = inject(Router); 
   loginForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    username: ['', Validators.required],
     password: ['', Validators.required]
   });
 
   onSubmit(): void {
-    
+    this.authService.login({
+      username: this.loginForm.get('username')?.value!,
+      password: this.loginForm.get('password')?.value!
+    })
+    .subscribe(response => {
+      localStorage.setItem('token', response.token);
+      this.authService.currentUserSignal.set(response.user);
+      this.authService.setAuthenticated(true);
+      this.router.navigateByUrl('/discover');
+    });
   }
 }
