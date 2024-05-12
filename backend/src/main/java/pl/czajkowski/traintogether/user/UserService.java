@@ -7,11 +7,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.czajkowski.traintogether.exception.UserNotFoundException;
 import pl.czajkowski.traintogether.exception.UsernameOrEmailAlreadyExistsException;
+import pl.czajkowski.traintogether.city.CityRepository;
 import pl.czajkowski.traintogether.user.models.*;
 
 import java.util.List;
 
-import static pl.czajkowski.traintogether.user.models.Role.ADMIN;
+import static pl.czajkowski.traintogether.user.models.Role.USER;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -75,12 +76,13 @@ public class UserService implements UserDetailsService {
         User user = new User();
         user.setUsername(request.username());
         user.setEmail(request.email());
+        user.setFirstName(request.firstName());
         user.setPassword(encoder.encode(request.password()));
         user.setDateOfBirth(request.dateOfBirth());
         user.setGender(request.gender());
         user.setBio(request.bio());
         user.setCity(cityRepository.findByName(request.city()).get());
-        user.setRole(ADMIN);
+        user.setRole(USER);
 
         return user;
     }

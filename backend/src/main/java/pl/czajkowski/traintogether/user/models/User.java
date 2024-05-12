@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.czajkowski.traintogether.sport.Sport;
+import pl.czajkowski.traintogether.city.models.City;
 
 import java.time.LocalDate;
 import java.util.Collection;
