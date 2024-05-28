@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { LoginRequest } from '../../interfaces/login-request.interface';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginResponse } from '../../interfaces/login-response.interface';
 import { User } from '../../interfaces/user.interface';
 
@@ -14,7 +14,11 @@ export class AuthService {
   currentUserSignal = signal<User | undefined | null>(undefined);
 
   login(request: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.authApiUrl + '/login', request)
+    return this.http.post<LoginResponse>(this.authApiUrl + '/login', request);
+  }
+
+  authenticate(): Observable<User> {
+    return this.http.get<User>(this.authApiUrl);
   }
 
   isAuthenticated(): boolean {
