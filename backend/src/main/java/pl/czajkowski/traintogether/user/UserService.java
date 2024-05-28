@@ -42,8 +42,8 @@ public class UserService implements UserDetailsService {
         return userMapper.toUserDTO(userRepository.save(user));
     }
 
-    public List<UserDTO> getAllUsers() {
-        return userRepository.findAll()
+    public List<UserDTO> getAllUsers(String username) {
+        return userRepository.findAllExceptGivenUser(username)
                 .stream()
                 .map(userMapper::toUserDTO)
                 .toList();

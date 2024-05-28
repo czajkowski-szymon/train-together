@@ -27,8 +27,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<List<UserDTO>> getAllUsers(Authentication user) {
+        return ResponseEntity.ok(userService.getAllUsers(user.getName()));
     }
 
     @GetMapping("/{username}")
