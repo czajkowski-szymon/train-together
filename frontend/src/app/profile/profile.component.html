@@ -1,33 +1,73 @@
 <app-nav-bar></app-nav-bar>
 <div class="container">
   <main>
-		<section class="user-info">
-			<div class="profile-picture">
-				<img
-					src="../../assets/img/profile-pictures/1.jpg"
-					alt="Profile picture"
-				/>
-			</div>
-			<div class="name">
-				<p>{{ user?.firstName }}</p>
-			</div>
-			<div class="city">
-				<p>{{ user?.city?.name }}</p>
-			</div>
-			<div class="bio">
-				<p>{{ user?.bio }}</p>
-			</div>
-			<div class="update-profile-info-button">
-				<button>UPDATE INFO</button>
-			</div>
-		</section>
-		<section class="trainings">
-			<div class="arranged-trainings">
-
-			</div>
-			<div class="training-history">
-
-			</div>
-		</section>
-	</main>
+    <section class="user-info">
+      <div class="profile-picture">
+        <img
+          src="../../assets/img/profile-pictures/1.jpg"
+          alt="Profile picture"
+        />
+      </div>
+      <div class="name">
+        <p>{{ user?.firstName }}</p>
+      </div>
+      <div class="city">
+        <p>{{ user?.city?.name }}</p>
+      </div>
+      <div class="bio">
+        <p>{{ user?.bio }}</p>
+      </div>
+      <div class="update-profile-info-button">
+        <button>UPDATE INFO</button>
+      </div>
+    </section>
+    <section class="trainings">
+      <div class="arranged-trainings">
+        <div class="arranged-trainings-header">
+          <p>UPCOMING TRAININGS</p>
+        </div>
+        <ul>
+					@if (upcomingTrainings?.length === 0) {
+						<p class="empty-list-info">No upcoming trainings</p>
+					}
+          @for(training of upcomingTrainings; track training.trainingId) {
+          <div>
+            <li>
+              {{ training.sport.name }} with
+              {{
+                user?.userId == training.participantOne.userId
+                  ? training.participantTwo.firstName
+                  : training.participantOne.firstName
+              }}
+              - {{ training.date | date : "mediumDate" }}
+            </li>
+          </div>
+          }
+        </ul>
+      </div>
+      <div class="training-history">
+        <div class="training-history-header">
+          <p>TRAINING HISTORY</p>
+        </div>
+        <ul>
+					@if (pastTrainings?.length === 0) {
+						<p class="empty-list-info">No past trainings</p>
+					}
+          @for(training of pastTrainings; track training.trainingId) {
+          <div>
+            <li>
+              {{ training.sport.name }} with
+              {{
+                user?.userId == training.participantOne.userId
+                  ? training.participantTwo.firstName
+                  : training.participantOne.firstName
+              }}
+              - {{ training.date | date : "mediumDate" }}
+            </li>
+          </div>
+          }
+        </ul>
+      </div>
+    </section>
+  </main>
 </div>
