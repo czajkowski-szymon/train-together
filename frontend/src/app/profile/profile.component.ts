@@ -1,31 +1,38 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { User } from '../interfaces/user.interface';
-import { UserService } from '../services/user/user.service';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { AuthService } from '../services/auth/auth.service';
+import { Training } from '../interfaces/training.interface';
+import { TrainingService } from '../services/training/training.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NavBarComponent],
+  imports: [NavBarComponent, DatePipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
-  route: ActivatedRoute = inject(ActivatedRoute);
-  username: string = '';
-  user?: User = undefined;
-  userString = '';
-  userService:  UserService = inject(UserService);
+  authService: AuthService = inject(AuthService);
+  trainingService: TrainingService = inject(TrainingService)
+  username: string | undefined = '';
+  user?: User | null | undefined = undefined;
+  upcomingTrainings?: Array<Training> | null | undefined;
+  pastTrainings?: Array<Training> | null | undefined;
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.username = params['username'];
-    })
-    this.userService.getUserByUsername(this.username).subscribe(user => {
-      this.user = user;
-      this.userString = JSON.stringify(this.user);
+    this.authService.authenticate().subscribe(response => {
+      this.authService.currentUserSignal.set(response);
+      this.user = response;
     });
 
+    this.trainingService.getUpcomingTrainings().subscribe(response => {
+      this.upcomingTrainings = response;
+    });
+
+    this.trainingService.getPastTrainings().subscribe(response => {
+      this.pastTrainings = response;
+    });
   }
 }
