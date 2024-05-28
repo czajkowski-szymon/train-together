@@ -21,53 +21,95 @@
         <button>UPDATE INFO</button>
       </div>
     </section>
-    <section class="trainings">
-      <div class="arranged-trainings">
-        <div class="arranged-trainings-header">
-          <p>UPCOMING TRAININGS</p>
-        </div>
-        <ul>
-					@if (upcomingTrainings?.length === 0) {
-						<p class="empty-list-info">No upcoming trainings</p>
-					}
-          @for(training of upcomingTrainings; track training.trainingId) {
-          <div>
-            <li>
-              {{ training.sport.name }} with
-              {{
-                user?.userId == training.participantOne.userId
-                  ? training.participantTwo.firstName
-                  : training.participantOne.firstName
-              }}
-              - {{ training.date | date : "mediumDate" }}
-            </li>
+    <div class="sections-container">
+      <section class="trainings-invites">
+        <div class="arranged-trainings">
+          <div class="arranged-trainings-header">
+            <p>UPCOMING TRAININGS</p>
           </div>
-          }
-        </ul>
-      </div>
-      <div class="training-history">
-        <div class="training-history-header">
-          <p>TRAINING HISTORY</p>
+          <ul>
+            @if (upcomingTrainings?.length === 0) {
+            <p class="empty-list-info">No upcoming trainings</p>
+            } @for(training of upcomingTrainings; track training.trainingId) {
+            <div>
+              <li>
+                {{ training.sport.name }} with
+                {{
+                  user?.userId === training.participantOne.userId
+                    ? training.participantTwo.firstName
+                    : training.participantOne.firstName
+                }}
+                - {{ training.date | date : "mediumDate" }}
+              </li>
+            </div>
+            }
+          </ul>
         </div>
-        <ul>
-					@if (pastTrainings?.length === 0) {
-						<p class="empty-list-info">No past trainings</p>
-					}
-          @for(training of pastTrainings; track training.trainingId) {
-          <div>
-            <li>
-              {{ training.sport.name }} with
-              {{
-                user?.userId == training.participantOne.userId
-                  ? training.participantTwo.firstName
-                  : training.participantOne.firstName
-              }}
-              - {{ training.date | date : "mediumDate" }}
-            </li>
+        <div class="training-history">
+          <div class="training-history-header">
+            <p>TRAINING HISTORY</p>
           </div>
-          }
-        </ul>
-      </div>
-    </section>
+          <ul>
+            @if (pastTrainings?.length === 0) {
+            <p class="empty-list-info">No past trainings</p>
+            } @for(training of pastTrainings; track training.trainingId) {
+            <div>
+              <li>
+                {{ training.sport.name }} with
+                {{
+                  user?.userId === training.participantOne.userId
+                    ? training.participantTwo.firstName
+                    : training.participantOne.firstName
+                }}
+                - {{ training.date | date : "mediumDate" }}
+              </li>
+            </div>
+            }
+          </ul>
+        </div>
+      </section>
+      <section class="trainings-invites">
+        <div class="arranged-trainings">
+          <div class="arranged-trainings-header">
+            <p>TRAINING INVITES</p>
+          </div>
+          <ul>
+            @if (trainingInvites?.length === 0) {
+            <p class="empty-list-info">No training invites</p>
+            } @for(trainingInvite of trainingInvites; track
+            trainingInvite.inviteId) {
+            <div>
+              <li>
+                {{ trainingInvite.sport.name }} with
+                <a [routerLink]="['/', trainingInvite.sender.username]">
+                  {{ trainingInvite.sender.firstName }}
+                </a>
+                - {{ trainingInvite.date | date : "mediumDate" }}
+              </li>
+            </div>
+            }
+          </ul>
+        </div>
+        <div class="training-history">
+          <div class="training-history-header">
+            <p>FRIEND INVITES</p>
+          </div>
+          <ul>
+            @if (friendInvites?.length === 0) {
+            <p class="empty-list-info">No friend invites</p>
+            } @for(friendInvite of friendInvites; track friendInvite.inviteId) {
+            <div>
+              <li>
+                Invite from
+                <a [routerLink]="['/', friendInvite.sender.username]">
+                  {{ friendInvite.sender.firstName }}
+                </a>
+              </li>
+            </div>
+            }
+          </ul>
+        </div>
+      </section>
+    </div>
   </main>
 </div>

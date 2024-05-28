@@ -13,6 +13,6 @@ public interface FriendshipInvitationRepository extends JpaRepository<Friendship
     @Query("SELECT f FROM FriendshipInvitation f WHERE f.sender = ?1")
     List<FriendshipInvitation> findAllSentFriendshipInvitationsByUsername(String username);
 
-    @Query("SELECT f FROM FriendshipInvitation f WHERE f.receiver = ?1")
+    @Query("SELECT f FROM FriendshipInvitation f WHERE f.receiver.username = ?1")
     List<FriendshipInvitation> findAllReceivedFriendshipInvitationsByUsername(String username);
 }

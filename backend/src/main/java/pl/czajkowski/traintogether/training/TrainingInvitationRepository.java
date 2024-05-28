@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 public interface TrainingInvitationRepository extends JpaRepository<TrainingInvitation, Integer> {
 
-    @Query("SELECT i FROM TrainingInvitation i WHERE i.sender = ?1")
+    @Query("SELECT i FROM TrainingInvitation i WHERE i.sender.username = ?1")
     List<TrainingInvitation> findAllSentTrainingInvitationsByUsername(String username);
 
-    @Query("SELECT i FROM TrainingInvitation i WHERE i.receiver = ?1")
+    @Query("SELECT i FROM TrainingInvitation i WHERE i.receiver.username = ?1")
     List<TrainingInvitation> findAllReceivedTrainingInvitationsByUsername(String username);
 }

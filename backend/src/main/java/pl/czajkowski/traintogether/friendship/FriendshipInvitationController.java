@@ -29,7 +29,7 @@ public class FriendshipInvitationController {
 
     @GetMapping("/{invitationId}")
     public ResponseEntity<FriendshipInvitationDTO> getFriendshipInvitation(@PathVariable Integer invitationId,
-                                                                    Authentication user) {
+                                                                           Authentication user) {
         return ResponseEntity.ok(friendshipInvitationService.getFriendshipInvitation(invitationId, user.getName()));
     }
 

@@ -1,0 +1,28 @@
+<app-nav-bar></app-nav-bar>
+<div class="container">
+	<main>
+		<section class="user-info">
+      <div class="profile-picture">
+        <img
+          src="../../assets/img/profile-pictures/1.jpg"
+          alt="Profile picture"
+        />
+      </div>
+      <div class="name">
+        <p>{{ user?.firstName }}</p>
+      </div>
+      <div class="city">
+        <p>{{ user?.city?.name }}</p>
+      </div>
+      <div class="bio">
+        <p>{{ user?.bio }}</p>
+      </div>
+			<div class="invite-button">
+				<button>INVITE TO FRIENDS</button>
+			</div>
+			<div class="invite-button">
+				<button>INVITE TO TRAINING</button>
+			</div>
+    </section>
+	</main>
+</div>
