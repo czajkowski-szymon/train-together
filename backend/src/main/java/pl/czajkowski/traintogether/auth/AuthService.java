@@ -10,6 +10,7 @@ import pl.czajkowski.traintogether.auth.models.LoginResponse;
 import pl.czajkowski.traintogether.security.jwt.JwtService;
 import pl.czajkowski.traintogether.user.UserMapper;
 import pl.czajkowski.traintogether.user.models.User;
+import pl.czajkowski.traintogether.user.models.UserDTO;
 
 @Service
 public class AuthService {
@@ -41,5 +42,9 @@ public class AuthService {
                 mapper.toUserDTO((User)userService.loadUserByUsername(request.username())),
                 service.generateToken(auth)
         );
+    }
+
+    public UserDTO authenticate(String username) {
+        return mapper.toUserDTO((User) userService.loadUserByUsername(username));
     }
 }

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public record TrainingInvitationRequest(
         LocalDate date,
-        Sport sport,
+        String sport,
         Integer senderId,
         Integer receiverId
 ) {

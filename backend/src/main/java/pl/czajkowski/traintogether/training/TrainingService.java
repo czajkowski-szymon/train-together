@@ -10,6 +10,8 @@ import pl.czajkowski.traintogether.training.models.TrainingDTO;
 import pl.czajkowski.traintogether.training.models.TrainingUpdateRequest;
 import pl.czajkowski.traintogether.user.UserRepository;
 
+import java.util.List;
+
 @Service
 public class TrainingService {
 
@@ -40,6 +42,20 @@ public class TrainingService {
         return trainingMapper.toTrainingDTO(training);
     }
 
+    public List<TrainingDTO> getUpcomingTrainings(String username) {
+        return trainingRepository.findAllUpcomingTrainingsForUser(username)
+                .stream()
+                .map(trainingMapper::toTrainingDTO)
+                .toList();
+    }
+
+    public List<TrainingDTO> getPastTrainings(String username) {
+        return trainingRepository.findAllPastTrainingsForUser(username)
+                .stream()
+                .map(trainingMapper::toTrainingDTO)
+                .toList();
+    }
+
     public TrainingDTO updateTraining(TrainingUpdateRequest request, String username) {
         Training training = trainingRepository.findById(request.trainingId()).orElseThrow(
                 () -> new ResourceNotFoundException(
@@ -49,7 +65,7 @@ public class TrainingService {
         validateTrainingOwnership(training, username);
 
         training.setDate(request.date());
-        training.setSport(sportRepository.getSportByName(request.sport()).orElseThrow(
+        training.setSport(sportRepository.findSportByName(request.sport()).orElseThrow(
                 () -> new ResourceNotFoundException("Sport not found")
         ));
         training.setParticipantOne(userRepository.findById(request.participantOneId()).orElseThrow(

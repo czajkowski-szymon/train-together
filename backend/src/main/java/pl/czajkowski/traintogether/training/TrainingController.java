@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.czajkowski.traintogether.training.models.TrainingDTO;
 import pl.czajkowski.traintogether.training.models.TrainingUpdateRequest;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/trainings")
 public class TrainingController {
@@ -19,6 +21,16 @@ public class TrainingController {
     @GetMapping("/{trainingId}")
     public ResponseEntity<TrainingDTO> getTraining(@PathVariable Integer trainingId, Authentication user) {
         return ResponseEntity.ok(trainingService.getTraining(trainingId, user.getName()));
+    }
+
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<TrainingDTO>> getUpcomingTrainings(Authentication user) {
+        return ResponseEntity.ok(trainingService.getUpcomingTrainings(user.getName()));
+    }
+
+    @GetMapping("/past")
+    public ResponseEntity<List<TrainingDTO>> getPastTrainings(Authentication user) {
+        return ResponseEntity.ok(trainingService.getPastTrainings(user.getName()));
     }
 
     @PutMapping
