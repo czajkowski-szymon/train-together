@@ -27,7 +27,7 @@ public class TrainingInvitationController {
 
     @GetMapping("/{invitationId}")
     public ResponseEntity<TrainingInvitationDTO> getTrainingInvitation(@PathVariable Integer invitationId,
-                                                                    Authentication user) {
+                                                                       Authentication user) {
         return ResponseEntity.ok(trainingInvitationService.getTrainingInvitation(invitationId, user.getName()));
     }
 
@@ -39,6 +39,18 @@ public class TrainingInvitationController {
     @GetMapping("/received")
     public ResponseEntity<List<TrainingInvitationDTO>> getReceivedTrainingInvitationsForUser(Authentication user) {
         return ResponseEntity.ok(trainingInvitationService.getReceivedTrainingInvitationsForUserString(user.getName()));
+    }
+
+    @PatchMapping("/{invitationId}/accept")
+    public ResponseEntity<TrainingInvitationDTO> acceptTrainingInvitation(@PathVariable Integer invitationId,
+                                                                          Authentication user) {
+        return ResponseEntity.ok(trainingInvitationService.acceptTrainingInvitation(invitationId, user.getName()));
+    }
+
+    @PatchMapping("/{invitationId}/decline")
+    public ResponseEntity<TrainingInvitationDTO> declineTrainingInvitation(@PathVariable Integer invitationId,
+                                                                           Authentication user) {
+        return ResponseEntity.ok(trainingInvitationService.declineTrainingInvitation(invitationId, user.getName()));
     }
 
     @DeleteMapping("/{invitationId}")

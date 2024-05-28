@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import pl.czajkowski.traintogether.exception.ResourceNotFoundException;
 import pl.czajkowski.traintogether.exception.TrainingOwnershipException;
 import pl.czajkowski.traintogether.exception.UserNotFoundException;
+import pl.czajkowski.traintogether.sport.SportRepository;
+import pl.czajkowski.traintogether.training.models.Training;
 import pl.czajkowski.traintogether.training.models.TrainingInvitation;
 import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
 import pl.czajkowski.traintogether.training.models.TrainingInvitationRequest;
@@ -16,22 +18,32 @@ public class TrainingInvitationService {
 
     private final TrainingInvitationRepository trainingInvitationRepository;
 
+    private final TrainingRepository trainingRepository;
+
     private final UserRepository userRepository;
+
+    private final SportRepository sportRepository;
 
     private final TrainingMapper trainingMapper;
 
     public TrainingInvitationService(TrainingInvitationRepository trainingInvitationRepository,
+                                     TrainingRepository trainingRepository,
                                      UserRepository userRepository,
+                                     SportRepository sportRepository,
                                      TrainingMapper trainingMapper) {
         this.trainingInvitationRepository = trainingInvitationRepository;
+        this.trainingRepository = trainingRepository;
         this.userRepository = userRepository;
+        this.sportRepository = sportRepository;
         this.trainingMapper = trainingMapper;
     }
 
     public TrainingInvitationDTO addTrainingInvitation(TrainingInvitationRequest request) {
         TrainingInvitation invitation = new TrainingInvitation();
         invitation.setDate(request.date());
-        invitation.setSport(request.sport());
+        invitation.setSport(sportRepository.findSportByName(request.sport()).orElseThrow(
+                () -> new ResourceNotFoundException("Sport not found")
+        ));
         invitation.setAccepted(false);
         invitation.setSender(userRepository.findById(request.senderId()).orElseThrow(
                 () -> new UserNotFoundException("User wit id: %d not found".formatted(request.senderId()))
@@ -43,11 +55,11 @@ public class TrainingInvitationService {
         return trainingMapper.toTrainingInvitationDTO(trainingInvitationRepository.save(invitation));
     }
 
-    public TrainingInvitationDTO getTrainingInvitation(Integer trainingInvitationId, String username) {
-        TrainingInvitation invitation = trainingInvitationRepository.findById(trainingInvitationId)
+    public TrainingInvitationDTO getTrainingInvitation(Integer invitationId, String username) {
+        TrainingInvitation invitation = trainingInvitationRepository.findById(invitationId)
                 .orElseThrow(
                         () -> new ResourceNotFoundException(
-                                "Training invitation with id: %d not found".formatted(trainingInvitationId)
+                                "Training invitation with id: %d not found".formatted(invitationId)
                         )
                 );
         validateTrainingInvitationOwnership(invitation, username);
@@ -68,6 +80,39 @@ public class TrainingInvitationService {
                 .stream()
                 .map(trainingMapper::toTrainingInvitationDTO)
                 .toList();
+    }
+
+    public TrainingInvitationDTO acceptTrainingInvitation(Integer invitationId, String username) {
+        TrainingInvitation invitation = trainingInvitationRepository.findById(invitationId)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException(
+                                "Training invitation with id: %d not found".formatted(invitationId)
+                        )
+                );
+        validateTrainingInvitationOwnership(invitation, username);
+        invitation.setAccepted(true);
+
+        Training training = new Training();
+        training.setDate(invitation.getDate());
+        training.setSport(invitation.getSport());
+        training.setParticipantOne(invitation.getSender());
+        training.setParticipantTwo(invitation.getReceiver());
+        trainingRepository.save(training);
+
+        return trainingMapper.toTrainingInvitationDTO(trainingInvitationRepository.save(invitation));
+    }
+
+    public TrainingInvitationDTO declineTrainingInvitation(Integer invitationId, String username) {
+        TrainingInvitation invitation = trainingInvitationRepository.findById(invitationId)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException(
+                                "Training invitation with id: %d not found".formatted(invitationId)
+                        )
+                );
+        validateTrainingInvitationOwnership(invitation, username);
+        invitation.setAccepted(false);
+
+        return trainingMapper.toTrainingInvitationDTO(trainingInvitationRepository.save(invitation));
     }
 
     public void deleteTrainingInvitation(Integer invitationId, String username) {
@@ -100,4 +145,5 @@ public class TrainingInvitationService {
             );
         }
     }
+
 }
