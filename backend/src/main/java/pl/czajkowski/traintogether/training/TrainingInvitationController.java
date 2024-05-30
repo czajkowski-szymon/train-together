@@ -3,6 +3,7 @@ package pl.czajkowski.traintogether.training;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import pl.czajkowski.traintogether.training.models.TrainingDTO;
 import pl.czajkowski.traintogether.training.models.TrainingInvitationDTO;
 import pl.czajkowski.traintogether.training.models.TrainingInvitationRequest;
 
@@ -43,15 +44,16 @@ public class TrainingInvitationController {
     }
 
     @PatchMapping("/{invitationId}/accept")
-    public ResponseEntity<TrainingInvitationDTO> acceptTrainingInvitation(@PathVariable Integer invitationId,
-                                                                          Authentication user) {
+    public ResponseEntity<TrainingDTO> acceptTrainingInvitation(@PathVariable Integer invitationId,
+                                                                Authentication user) {
         return ResponseEntity.ok(trainingInvitationService.acceptTrainingInvitation(invitationId, user.getName()));
     }
 
     @PatchMapping("/{invitationId}/decline")
-    public ResponseEntity<TrainingInvitationDTO> declineTrainingInvitation(@PathVariable Integer invitationId,
+    public ResponseEntity<TrainingDTO> declineTrainingInvitation(@PathVariable Integer invitationId,
                                                                            Authentication user) {
-        return ResponseEntity.ok(trainingInvitationService.declineTrainingInvitation(invitationId, user.getName()));
+        trainingInvitationService.declineTrainingInvitation(invitationId, user.getName());
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{invitationId}")

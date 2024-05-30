@@ -2,7 +2,7 @@ import { Sport } from "./sport.interface";
 import { User } from "./user.interface";
 
 export interface TrainingInvite {
-    inviteId: number,
+    trainingInvitationId: number,
     date: Date,
     sport: Sport,
     message: string,

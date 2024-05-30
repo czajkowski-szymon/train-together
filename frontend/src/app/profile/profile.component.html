@@ -76,8 +76,8 @@
           <ul>
             @if (trainingInvites?.length === 0) {
             <p class="empty-list-info">No training invites</p>
-            } @for(trainingInvite of trainingInvites; track
-            trainingInvite.inviteId) {
+            } 
+            @for(trainingInvite of trainingInvites; track trainingInvite) {
             <div>
               <li>
                 {{ trainingInvite.sport.name }} with
@@ -86,6 +86,10 @@
                 </a>
                 - {{ trainingInvite.date | date : "mediumDate" }}
               </li>
+              <div class="button-container">
+                <button (click)="acceptTrainingInvite(trainingInvite.trainingInvitationId)"><i class="fa-solid fa-check"></i></button>
+                <button (click)="denyTrainingInvite(trainingInvite.trainingInvitationId)"><i class="fa-solid fa-xmark"></i></button>
+              </div>
             </div>
             }
           </ul>
@@ -105,6 +109,10 @@
                   {{ friendInvite.sender.firstName }}
                 </a>
               </li>
+              <div class="button-container">
+                <button (click)="acceptFriendInvite(friendInvite.inviteId)"><i class="fa-solid fa-check"></i></button>
+                <button (click)="denyFriendInvite(friendInvite.inviteId)"><i class="fa-solid fa-xmark"></i></button>
+              </div>
             </div>
             }
           </ul>

@@ -25,7 +25,14 @@ export class TrainingService {
   }
 
   sendTrainingInvite(request: TrainingInviteRequest): Observable<TrainingInvite> {
-    console.log(request);
     return this.http.post<TrainingInvite>(this.trainingsApiUrl + '/invitations', request);
+  }
+
+  acceptTrainingInvite(inviteId: number): Observable<TrainingInvite> {
+    return this.http.patch<TrainingInvite>(this.trainingsApiUrl + '/invitations/' + inviteId + '/accept', null);
+  }
+
+  denyTrainingInvite(inviteId: number): Observable<TrainingInvite> {
+    return this.http.patch<TrainingInvite>(this.trainingsApiUrl + '/invitations/' + inviteId + '/decline', null);
   }
 }
