@@ -15,6 +15,10 @@ export class UserService {
     return this.http.post<User>(this.usersApiUrl + '/register', request)
   }
 
+  uploadFile(formData: FormData, userId: number): Observable<void> {
+    return this.http.post<void>(this.usersApiUrl + '/' + userId + '/profile-picture', formData);
+  }
+
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.usersApiUrl);
   }

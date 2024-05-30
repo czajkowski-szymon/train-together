@@ -33,7 +33,8 @@ public class SecurityFilterConfig {
                                 "/api/v1/auth/login",
                                 "/api/v1/cities",
                                 "/v3/api-docs/**",
-                                "/swagger-ui/**"
+                                "/swagger-ui/**",
+                                "/api/v1/users/{userId}/profile-picture"
                         )
                         .permitAll()
                         .requestMatchers( "/api/v1/admin/**")

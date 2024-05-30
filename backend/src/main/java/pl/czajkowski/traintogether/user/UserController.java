@@ -1,8 +1,10 @@
 package pl.czajkowski.traintogether.user;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pl.czajkowski.traintogether.user.models.RegistrationRequest;
 import pl.czajkowski.traintogether.user.models.UpdateUserRequest;
 import pl.czajkowski.traintogether.user.models.UserDTO;
@@ -58,13 +60,20 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{userId}/profile-picture")
-    public ResponseEntity<?> uploadProfilePicture(@PathVariable Integer userId) {
-        return ResponseEntity.created(URI.create("/api/v1/users/%d/profile-picture".formatted(userId))).body(null);
+    @PostMapping(
+            value = "/{userId}/profile-picture",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public void uploadProfilePicture(@PathVariable("userId") Integer userId,
+                                                  @RequestParam("file") MultipartFile file) {
+        userService.uploadProfilePicture(userId, file);
     }
 
-    @GetMapping("/{userId}/profile-picture")
-    public ResponseEntity<?> downloadProfileImage(@PathVariable Integer userId) {
-        return ResponseEntity.ok(null);
+    @GetMapping(
+            value = "/{userId}/profile-picture",
+            produces = MediaType.IMAGE_JPEG_VALUE
+    )
+    public byte[] downloadProfileImage(@PathVariable("userId") Integer userId) {
+        return userService.downloadProfileImage(userId);
     }
 }

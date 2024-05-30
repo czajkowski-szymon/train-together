@@ -6,6 +6,7 @@ export interface User {
     username: string;
     email: string;
     firstName: string;
+    profilePictureId: string
     dateOfBirth: Date;
     gender: string;
     bio: string;

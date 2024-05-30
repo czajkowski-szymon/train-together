@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pl.czajkowski.traintogether.exception.ResourceNotFoundException;
 import pl.czajkowski.traintogether.exception.UserNotFoundException;
 import pl.czajkowski.traintogether.exception.UsernameOrEmailAlreadyExistsException;
@@ -12,12 +13,22 @@ import pl.czajkowski.traintogether.city.CityRepository;
 import pl.czajkowski.traintogether.friendship.FriendshipRepository;
 import pl.czajkowski.traintogether.user.models.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.stream.Stream;
 
 import static pl.czajkowski.traintogether.user.models.Role.USER;
 
 @Service
 public class UserService implements UserDetailsService {
+
+    private static final String UPLOAD_DIRECTORY = "../frontend/src/assets/uploads/";
 
     private final UserRepository userRepository;
 
@@ -94,6 +105,30 @@ public class UserService implements UserDetailsService {
         return friendshipRepository.exists(userId, user.getUserId());
     }
 
+    public void uploadProfilePicture(Integer userId, MultipartFile file) {
+        File uploadDir = new File(UPLOAD_DIRECTORY);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        UUID uuid = UUID.randomUUID();
+
+        String[] splitedString = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
+        int index = splitedString.length - 1;
+        String fileName = uuid.toString() + "." + splitedString[index];
+        User user = userRepository.findById(userId).orElseThrow();
+        user.setProfilePictureId(fileName);
+        userRepository.save(user);
+
+        Path filePath = Paths.get(UPLOAD_DIRECTORY, fileName);
+
+        try {
+            Files.write(filePath, file.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+        }
+    }
+
     private User createUserFromRequest(RegistrationRequest request) {
         User user = new User();
         user.setUsername(request.username());
@@ -130,4 +165,19 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public byte[] downloadProfileImage(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        try {
+            try (Stream<Path> files = Files.list(Paths.get(UPLOAD_DIRECTORY))) {
+                Path filePath = files
+                        .filter(path -> path.getFileName().toString().equals(user.getProfilePictureId()))
+                        .findFirst()
+                        .orElseThrow(() -> new RuntimeException("File not found"));
+
+                return Files.readAllBytes(filePath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Could not retrieve the file. Error: " + e.getMessage());
+        }
+    }
 }

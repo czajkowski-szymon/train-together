@@ -29,11 +29,19 @@ export class RegistrationComponent implements OnInit {
     gender: ['', Validators.required],
     city: ['', Validators.required]
   });
+  selectedFile: File | null = null;
 
   ngOnInit(): void {
     this.cityService.getCities().subscribe(cities => {
       this.cities = cities;
     })
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
   }
 
   onSubmit(): void {
@@ -48,6 +56,12 @@ export class RegistrationComponent implements OnInit {
       city: this.registerForm.get('city')?.value!
     })
     .subscribe((response) => {
+      if (this.selectedFile) {
+        const formData = new FormData();
+        formData.append('file', this.selectedFile, this.selectedFile.name);
+      
+        this.userService.uploadFile(formData, response.userId).subscribe();
+      }
       this.router.navigateByUrl("/login");
     });
   }

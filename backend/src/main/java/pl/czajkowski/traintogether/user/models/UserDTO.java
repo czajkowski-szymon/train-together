@@ -11,6 +11,7 @@ public record UserDTO(
         String username,
         String email,
         String firstName,
+        String profilePictureId,
         LocalDate dateOfBirth,
         Gender gender,
         String bio,

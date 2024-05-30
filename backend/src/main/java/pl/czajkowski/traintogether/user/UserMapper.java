@@ -13,6 +13,7 @@ public class UserMapper {
                 user.getUsername(),
                 user.getEmail(),
                 user.getFirstName(),
+                user.getProfilePictureId(),
                 user.getDateOfBirth(),
                 user.getGender(),
                 user.getBio(),
