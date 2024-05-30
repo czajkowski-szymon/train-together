@@ -41,10 +41,12 @@ public class TrainingInvitationService {
     public TrainingInvitationDTO addTrainingInvitation(TrainingInvitationRequest request) {
         TrainingInvitation invitation = new TrainingInvitation();
         invitation.setDate(request.date());
+        System.out.println(request);
         invitation.setSport(sportRepository.findSportByName(request.sport()).orElseThrow(
                 () -> new ResourceNotFoundException("Sport not found")
         ));
         invitation.setAccepted(false);
+        invitation.setMessage(request.message());
         invitation.setSender(userRepository.findById(request.senderId()).orElseThrow(
                 () -> new UserNotFoundException("User wit id: %d not found".formatted(request.senderId()))
         ));

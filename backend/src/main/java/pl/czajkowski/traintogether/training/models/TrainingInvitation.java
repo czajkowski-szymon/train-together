@@ -30,6 +30,8 @@ public class TrainingInvitation {
     @JoinColumn(name = "receiver_id")
     private User receiver;
 
+    private String message;
+
     public Integer getTrainingInvitationId() {
         return trainingInvitationId;
     }
@@ -76,6 +78,14 @@ public class TrainingInvitation {
 
     public void setReceiver(User receiver) {
         this.receiver = receiver;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override

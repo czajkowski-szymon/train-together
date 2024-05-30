@@ -12,8 +12,11 @@ $light-gray: #DADADA;
   main {
     width: 70%;
     margin-top: 4.5em;
-    border-left: 1px solid $light-gray;
-    border-right: 1px solid $light-gray;
+    border-left: 2px solid $light-gray;
+    border-right: 2px solid $light-gray;
+    border-bottom: 2px solid $light-gray;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
     display: flex;
 
     .user-info {
@@ -100,6 +103,16 @@ $light-gray: #DADADA;
         display: flex;
         justify-content: space-around;
   
+        .notification-box {
+          border: 2px solid $light-gray;
+          border-radius: 20px;
+          margin: 1em;
+
+          .notification-box-header {
+            width: 100%;
+          }
+        }
+
         div {
           width: 50%;
           display: flex;
@@ -116,6 +129,7 @@ $light-gray: #DADADA;
   
           .empty-list-info {
             color: $light-gray;
+            margin: 1em 0 1em 0;
           }
   
           ul {
@@ -128,17 +142,17 @@ $light-gray: #DADADA;
   
             div {
               width: 80%;
-              border: 1px solid $light-gray;
+              background-color: $main-green;
               border-radius: 20px;
-              box-shadow: 5px 5px 20px -7px rgba(0, 0, 0, 0.3);
               margin: .5em 0;
               padding: 1em;
+              box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
   
               li {
                 color: $main-green;
-
+                color: white;
                 a {
-                  color: $main-green;
+                  color: white;
                   text-decoration: none;
                   font-weight: 600;
                 }

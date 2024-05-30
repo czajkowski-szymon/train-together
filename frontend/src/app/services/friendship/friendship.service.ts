@@ -13,4 +13,8 @@ export class FriendshipService {
   getAllFriendInvites(): Observable<Array<FriendInvite>> {
     return this.http.get<Array<FriendInvite>>(this.friendshipApiUrl + '/invitations/received');
   }
+
+  sendFriendInvite(request: {senderId: number, receiverId: number}): Observable<FriendInvite> {
+    return this.http.post<FriendInvite>(this.friendshipApiUrl + '/invitations', request);
+  }
 }

@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Training } from '../../interfaces/training.interface';
 import { TrainingInvite } from '../../interfaces/training-invite.interface';
+import { TrainingInviteRequest } from '../../interfaces/training-invite-request.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,10 @@ export class TrainingService {
 
   getTrainingInvites(): Observable<Array<TrainingInvite>> {
     return this.http.get<Array<TrainingInvite>>(this.trainingsApiUrl + '/invitations/received');
+  }
+
+  sendTrainingInvite(request: TrainingInviteRequest): Observable<TrainingInvite> {
+    console.log(request);
+    return this.http.post<TrainingInvite>(this.trainingsApiUrl + '/invitations', request);
   }
 }

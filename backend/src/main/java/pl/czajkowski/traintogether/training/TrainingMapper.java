@@ -32,6 +32,7 @@ public class TrainingMapper {
                 invitation.getDate(),
                 invitation.getSport(),
                 invitation.isAccepted(),
+                invitation.getMessage(),
                 userMapper.toUserDTO(invitation.getSender()),
                 userMapper.toUserDTO(invitation.getReceiver())
         );

@@ -12,11 +12,14 @@ $light-gray: #DADADA;
     main {
         width: 50%;
         margin-top: 4.5em;
-        border-left: 1px solid $light-gray;
-        border-right: 1px solid $light-gray;
+        border-left: 2px solid $light-gray;
+        border-right: 2px solid $light-gray;
+        border-bottom: 2px solid $light-gray;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
         display: flex;
-        justify-content: center;
-    
+        justify-content: space-between;
+
         .user-info {
             width: calc(100% / 2);
             display: flex;
@@ -75,7 +78,83 @@ $light-gray: #DADADA;
                 width: 100%;
                 line-height: 2.5em;
                 padding: 0;
-                margin: 2em 0 0 0;
+                margin: 1em 0 0 0;
+                border-radius: 20px;
+                background-color: $main-green;
+                color: white;
+                border: none;
+                box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+                letter-spacing: .2em;
+                transition: transform 0.3s ease;
+              }
+        
+              button:hover {
+                transform: scale(1.025);
+              }
+            }
+        }
+
+        .training-invite {
+          width: calc(100% / 2);
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+
+          .invite-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: calc(100% - 8em);
+            margin: 1em 0 0 0;
+      
+            .field {
+              width: 100%;
+              margin: .5em 0;
+            
+              input, textarea, select {
+                width: calc(100% - 2em);
+                line-height: 2.5em;
+                font-size: 1.25em;
+                padding: 0 1em;
+                border-radius: 20px;
+                border: 1px solid #DADADA;
+                background: #FFF;
+                box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.25) inset;
+                color: $font-gray;
+              }
+            
+              select {
+                width: 100%;
+                height: 2.5em;
+              }
+
+              textarea {
+                resize: none;
+                font-family: Arial, sans-serif;
+                padding-top: 1em;
+                line-height: 1em;
+            }
+      
+              input:focus, textarea:focus, select:focus {
+                outline-color: $font-gray;
+                outline-width: 1px;
+              }
+            
+              input::placeholder, textarea::placeholder {
+                  color: $font-gray;
+              }
+            }
+      
+            .invite-button {
+              width: 100%;
+              margin: 1em 0;
+      
+              button {
+                font-size: 1em;
+                font-weight: 100;
+                width: 100%;
+                line-height: 2.5em;
+                padding: 0;
                 border-radius: 20px;
                 background-color: $main-green;
                 color: white;
@@ -90,5 +169,6 @@ $light-gray: #DADADA;
               }
             }
           }
+        }
     }
 }

@@ -64,4 +64,18 @@ public class ApiExceptionHandler {
 
         return new ResponseEntity<>(response, status);
     }
+
+    @ExceptionHandler(FriendshipInvitationAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleException(FriendshipInvitationAlreadyExistsException e,
+                                                         HttpServletRequest request) {
+        HttpStatus status = e.getClass().getAnnotation(ResponseStatus.class).code();
+        ErrorResponse response = new ErrorResponse(
+                request.getRequestURI(),
+                status.value(),
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(response, status);
+    }
 }

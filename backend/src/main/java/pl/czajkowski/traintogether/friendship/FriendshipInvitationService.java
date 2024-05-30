@@ -1,6 +1,7 @@
 package pl.czajkowski.traintogether.friendship;
 
 import org.springframework.stereotype.Service;
+import pl.czajkowski.traintogether.exception.FriendshipInvitationAlreadyExistsException;
 import pl.czajkowski.traintogether.exception.ResourceNotFoundException;
 import pl.czajkowski.traintogether.exception.TrainingOwnershipException;
 import pl.czajkowski.traintogether.exception.UserNotFoundException;
@@ -30,6 +31,10 @@ public class FriendshipInvitationService {
     }
 
     public FriendshipInvitationDTO addFriendshipInvitation(FriendshipInvitationRequest request) {
+        if (friendshipInvitationRepository.exists(request.senderId(), request.receiverId())) {
+            throw new FriendshipInvitationAlreadyExistsException("Friend invite for given users already exists");
+        }
+
         FriendshipInvitation invitation = new FriendshipInvitation();
         invitation.setSendAt(LocalDateTime.now());
         invitation.setAccepted(false);

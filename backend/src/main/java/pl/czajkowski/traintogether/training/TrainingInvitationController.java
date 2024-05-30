@@ -20,7 +20,8 @@ public class TrainingInvitationController {
     }
 
     @PostMapping
-    public ResponseEntity<TrainingInvitationDTO> addTrainingInvitation(TrainingInvitationRequest invitation) {
+    public ResponseEntity<TrainingInvitationDTO> addTrainingInvitation(
+            @RequestBody TrainingInvitationRequest invitation) {
         return ResponseEntity.created(URI.create( "/api/v1/trainings/invitations"))
                 .body(trainingInvitationService.addTrainingInvitation(invitation));
     }

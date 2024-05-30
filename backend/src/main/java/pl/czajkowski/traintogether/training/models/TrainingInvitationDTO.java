@@ -10,6 +10,7 @@ public record TrainingInvitationDTO(
         LocalDate date,
         Sport sport,
         boolean isAccepted,
+        String message,
         UserDTO sender,
         UserDTO receiver
 ) {

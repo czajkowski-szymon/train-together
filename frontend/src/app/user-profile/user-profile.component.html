@@ -18,11 +18,37 @@
         <p>{{ user?.bio }}</p>
       </div>
 			<div class="invite-button">
-				<button>INVITE TO FRIENDS</button>
+        <button (click)="sendFriendInvite()">INVITE TO FRIENDS</button>
+        @if (this.message) {
+          <p>{{ this.message }}</p>
+        }
 			</div>
-			<div class="invite-button">
-				<button>INVITE TO TRAINING</button>
-			</div>
+    </section>
+    <section class="training-invite">
+      <form class="invite-form" [formGroup]="trainingInviteForm" (ngSubmit)="onSubmit()">
+        <div class="field">
+          <select id="sports" formControlName="sport">
+            <option value="" disabled selected hidden>Sport</option>
+            <option value="Football">Football</option>
+            <option value="Basketball">Basketball</option>
+          </select>
+        </div>
+        <div class="field">
+          <input 
+            type="text" 
+            onfocus="this.type='date'" 
+            onblur="this.type='text'" 
+            formControlName="date" 
+            placeholder="Date"
+          >
+        </div>
+        <div class="field">
+          <textarea placeholder="Message" cols="21" rows="11" formControlName="message"></textarea>
+        </div>
+        <div class="invite-button">
+          <button type="submit">INVITE TO TRAINING</button>
+        </div>
+      </form>
     </section>
 	</main>
 </div>
