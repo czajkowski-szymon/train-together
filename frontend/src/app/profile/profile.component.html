@@ -101,7 +101,7 @@
           <ul>
             @if (friendInvites?.length === 0) {
             <p class="empty-list-info">No friend invites</p>
-            } @for(friendInvite of friendInvites; track friendInvite.inviteId) {
+            } @for(friendInvite of friendInvites; track friendInvite.friendshipInvitationId) {
             <div>
               <li>
                 Invite from
@@ -110,8 +110,8 @@
                 </a>
               </li>
               <div class="button-container">
-                <button (click)="acceptFriendInvite(friendInvite.inviteId)"><i class="fa-solid fa-check"></i></button>
-                <button (click)="denyFriendInvite(friendInvite.inviteId)"><i class="fa-solid fa-xmark"></i></button>
+                <button (click)="acceptFriendInvite(friendInvite.friendshipInvitationId)"><i class="fa-solid fa-check"></i></button>
+                <button (click)="denyFriendInvite(friendInvite.friendshipInvitationId)"><i class="fa-solid fa-xmark"></i></button>
               </div>
             </div>
             }

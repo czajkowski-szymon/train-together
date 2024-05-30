@@ -50,7 +50,7 @@ public class TrainingInvitationController {
     }
 
     @PatchMapping("/{invitationId}/decline")
-    public ResponseEntity<TrainingDTO> declineTrainingInvitation(@PathVariable Integer invitationId,
+    public ResponseEntity<?> declineTrainingInvitation(@PathVariable Integer invitationId,
                                                                            Authentication user) {
         trainingInvitationService.declineTrainingInvitation(invitationId, user.getName());
         return ResponseEntity.noContent().build();

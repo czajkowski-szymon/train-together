@@ -18,7 +18,9 @@
         <p>{{ user?.bio }}</p>
       </div>
 			<div class="invite-button">
-        <button (click)="sendFriendInvite()">INVITE TO FRIENDS</button>
+        @if (!this.isFriend) {
+          <button (click)="sendFriendInvite()">INVITE TO FRIENDS</button>
+        }
         @if (this.message) {
           <p>{{ this.message }}</p>
         }

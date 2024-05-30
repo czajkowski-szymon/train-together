@@ -3,6 +3,7 @@ package pl.czajkowski.traintogether.user;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import pl.czajkowski.traintogether.city.models.City;
 import pl.czajkowski.traintogether.user.models.User;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE u.username != :username")
     List<User> findAllExceptGivenUser(String username);
+
+    List<User> findAllByCity(City city);
 
     boolean existsByUsernameOrEmail(String username, String email);
 

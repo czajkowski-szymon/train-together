@@ -2,7 +2,7 @@
 <div class="container">
   <main>
     <section class="search-panel">
-      <input type="text" placeholder="City">
+      <input type="text" placeholder="City" [(ngModel)]="city" (keyup.enter)="onEnter()">
     </section>
     <section class="profiles">
       @for (user of users; track user.userId) {

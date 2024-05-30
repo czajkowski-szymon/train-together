@@ -5,9 +5,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.czajkowski.traintogether.exception.ResourceNotFoundException;
 import pl.czajkowski.traintogether.exception.UserNotFoundException;
 import pl.czajkowski.traintogether.exception.UsernameOrEmailAlreadyExistsException;
 import pl.czajkowski.traintogether.city.CityRepository;
+import pl.czajkowski.traintogether.friendship.FriendshipRepository;
 import pl.czajkowski.traintogether.user.models.*;
 
 import java.util.List;
@@ -21,16 +23,20 @@ public class UserService implements UserDetailsService {
 
     private final CityRepository cityRepository;
 
+    private final FriendshipRepository friendshipRepository;
+
     private final UserMapper userMapper;
 
     private final PasswordEncoder encoder;
 
     public UserService(UserRepository userRepository,
                        CityRepository cityRepository,
+                       FriendshipRepository friendshipRepository,
                        UserMapper userMapper,
                        PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
+        this.friendshipRepository = friendshipRepository;
         this.userMapper = userMapper;
         this.encoder = encoder;
     }
@@ -44,6 +50,15 @@ public class UserService implements UserDetailsService {
 
     public List<UserDTO> getAllUsers(String username) {
         return userRepository.findAllExceptGivenUser(username)
+                .stream()
+                .map(userMapper::toUserDTO)
+                .toList();
+    }
+
+    public List<UserDTO> getAllUsersByCity(String city, String username) {
+        return userRepository.findAllByCity(cityRepository.findByName(city).orElseThrow(
+                        () -> new ResourceNotFoundException("City not found")
+                ))
                 .stream()
                 .map(userMapper::toUserDTO)
                 .toList();
@@ -70,6 +85,13 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username).orElseThrow(
                 () -> new UserNotFoundException("User with username: '%s' not found".formatted(username))
         );
+    }
+
+    public boolean isUserFriend(Integer userId, String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new UserNotFoundException("User with username: '%s' not found".formatted(username))
+        );
+        return friendshipRepository.exists(userId, user.getUserId());
     }
 
     private User createUserFromRequest(RegistrationRequest request) {
@@ -107,4 +129,5 @@ public class UserService implements UserDetailsService {
             );
         }
     }
+
 }

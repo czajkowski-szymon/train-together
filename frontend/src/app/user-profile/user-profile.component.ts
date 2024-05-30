@@ -28,6 +28,7 @@ export class UserProfileComponent implements OnInit {
   username: string | null = "";
   user?: User;
   message?: string = "";
+  isFriend?: boolean;
   trainingInviteForm = this.fb.group({
     sport: ['', Validators.required],
     date: ['', Validators.required],
@@ -39,6 +40,10 @@ export class UserProfileComponent implements OnInit {
       this.username = params.get('username') || "";
       this.userService.getUserByUsername(this.username).subscribe(response => {
         this.user = response
+        this.userService.isUserFriend(this.user?.userId).subscribe(response => {
+          this.isFriend = response;
+          console.log(this.isFriend);
+        });
       })
     });
   }

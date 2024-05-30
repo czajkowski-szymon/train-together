@@ -19,7 +19,15 @@ export class UserService {
     return this.http.get<User[]>(this.usersApiUrl);
   }
 
+  getUsersByCity(city: string): Observable<User[]> {
+    return this.http.get<User[]>(this.usersApiUrl + '/city?cityname=' + city);
+  }
+
   getUserByUsername(username: string): Observable<User> {
     return this.http.get<User>(this.usersApiUrl + '/' + username);
+  }
+
+  isUserFriend(userId: number | undefined): Observable<boolean> {
+    return this.http.get<boolean>(this.usersApiUrl + '/isfriend/' + userId);
   }
 }

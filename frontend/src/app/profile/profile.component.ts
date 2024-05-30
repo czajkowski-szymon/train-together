@@ -55,27 +55,29 @@ export class ProfileComponent implements OnInit {
 
   acceptTrainingInvite(inviteId: number) {
     if (inviteId) {
-      this.trainingService.acceptTrainingInvite(inviteId).subscribe((response) => {
-        console.log(response);
-      });
+      this.trainingService.acceptTrainingInvite(inviteId).subscribe();
     }
     window.location.reload();
   }
 
   denyTrainingInvite(inviteId: number) {
     if (inviteId) {
-      this.trainingService.denyTrainingInvite(inviteId).subscribe((response) => {
-        console.log(response);
-      });
+      this.trainingService.denyTrainingInvite(inviteId).subscribe();
     }
     window.location.reload();
   }
 
   acceptFriendInvite(inviteId: number) {
-    console.log('accept friend' + inviteId)
+    if (inviteId) {
+      this.freindshipService.acceptFriendInvite(inviteId).subscribe();
+    }
+    window.location.reload();
   }
 
   denyFriendInvite(inviteId: number) {
-    console.log('refuse friend')
+    if (inviteId) {
+      this.freindshipService.denyFriendInvite(inviteId).subscribe();
+    }
+    window.location.reload();
   }
 }

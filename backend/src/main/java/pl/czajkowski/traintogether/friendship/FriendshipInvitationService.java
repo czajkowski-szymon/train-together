@@ -1,15 +1,11 @@
 package pl.czajkowski.traintogether.friendship;
 
 import org.springframework.stereotype.Service;
-import pl.czajkowski.traintogether.exception.FriendshipInvitationAlreadyExistsException;
-import pl.czajkowski.traintogether.exception.ResourceNotFoundException;
-import pl.czajkowski.traintogether.exception.TrainingOwnershipException;
-import pl.czajkowski.traintogether.exception.UserNotFoundException;
-import pl.czajkowski.traintogether.friendship.models.FriendshipInvitation;
-import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationDTO;
-import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationRequest;
+import pl.czajkowski.traintogether.exception.*;
+import pl.czajkowski.traintogether.friendship.models.*;
 import pl.czajkowski.traintogether.user.UserRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,19 +16,26 @@ public class FriendshipInvitationService {
 
     private final UserRepository userRepository;
 
+    private final FriendshipRepository friendshipRepository;
+
     private final FriendshipMapper friendshipMapper;
 
     public FriendshipInvitationService(FriendshipInvitationRepository friendshipInvitationRepository,
                                        UserRepository userRepository,
+                                       FriendshipRepository friendshipRepository,
                                        FriendshipMapper friendshipMapper) {
         this.friendshipInvitationRepository = friendshipInvitationRepository;
         this.userRepository = userRepository;
+        this.friendshipRepository = friendshipRepository;
         this.friendshipMapper = friendshipMapper;
     }
 
     public FriendshipInvitationDTO addFriendshipInvitation(FriendshipInvitationRequest request) {
         if (friendshipInvitationRepository.exists(request.senderId(), request.receiverId())) {
             throw new FriendshipInvitationAlreadyExistsException("Friend invite for given users already exists");
+        }
+        if (friendshipRepository.exists(request.senderId(), request.receiverId())) {
+            throw new FriendshipAlreadyExistsException("Given users are already friends");
         }
 
         FriendshipInvitation invitation = new FriendshipInvitation();
@@ -74,6 +77,35 @@ public class FriendshipInvitationService {
                 .stream()
                 .map(friendshipMapper::toFriendshipInvitationDTO)
                 .toList();
+    }
+
+    public FriendshipDTO acceptFriendshipInvitation(Integer invitationId, String username) {
+        FriendshipInvitation invitation = friendshipInvitationRepository.findById(invitationId)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException(
+                                "Training invitation with id: %d not found".formatted(invitationId)
+                        )
+                );
+        validateFriendshipInvitationOwnership(invitation, username);
+        friendshipInvitationRepository.deleteById(invitationId);
+
+        Friendship friendship = new Friendship();
+        friendship.setCreated(LocalDate.now());
+        friendship.setMemberOne(invitation.getSender());
+        friendship.setMemberTwo(invitation.getReceiver());
+
+        return friendshipMapper.toFriendshipDTO(friendshipRepository.save(friendship));
+    }
+
+    public void declineFriendshipInvitation(Integer invitationId, String username) {
+        FriendshipInvitation invitation = friendshipInvitationRepository.findById(invitationId)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException(
+                                "Training invitation with id: %d not found".formatted(invitationId)
+                        )
+                );
+        validateFriendshipInvitationOwnership(invitation, username);
+        friendshipInvitationRepository.deleteById(invitationId);
     }
 
     public void deleteFriendshipInvitation(Integer invitationId, String username) {

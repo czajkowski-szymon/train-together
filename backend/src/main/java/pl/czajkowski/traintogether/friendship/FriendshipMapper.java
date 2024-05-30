@@ -1,6 +1,8 @@
 package pl.czajkowski.traintogether.friendship;
 
 import org.springframework.stereotype.Service;
+import pl.czajkowski.traintogether.friendship.models.Friendship;
+import pl.czajkowski.traintogether.friendship.models.FriendshipDTO;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitation;
 import pl.czajkowski.traintogether.friendship.models.FriendshipInvitationDTO;
 import pl.czajkowski.traintogether.user.UserMapper;
@@ -21,6 +23,15 @@ public class FriendshipMapper {
                 invitation.isAccepted(),
                 userMapper.toUserDTO(invitation.getSender()),
                 userMapper.toUserDTO(invitation.getReceiver())
+        );
+    }
+
+    public FriendshipDTO toFriendshipDTO(Friendship friendship) {
+        return new FriendshipDTO(
+                friendship.getFriendshipId(),
+                friendship.getCreated(),
+                userMapper.toUserDTO(friendship.getMemberOne()),
+                userMapper.toUserDTO(friendship.getMemberTwo())
         );
     }
 }

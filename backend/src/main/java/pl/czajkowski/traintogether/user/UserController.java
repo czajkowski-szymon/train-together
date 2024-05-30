@@ -31,10 +31,21 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers(user.getName()));
     }
 
+    @GetMapping("/city")
+    public ResponseEntity<List<UserDTO>> getAllUsersByCity(@RequestParam(name = "cityname") String city, Authentication user) {
+        return ResponseEntity.ok(userService.getAllUsersByCity(city, user.getName()));
+    }
+
     @GetMapping("/{username}")
     public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
+
+    @GetMapping("/isfriend/{userId}")
+    public boolean isUserFriend(@PathVariable Integer userId, Authentication user) {
+        return userService.isUserFriend(userId, user.getName());
+    }
+
 
     @PutMapping
     public ResponseEntity<UserDTO> updateUser(@RequestBody UpdateUserRequest request, Authentication user) {
