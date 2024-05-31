@@ -62,35 +62,86 @@ $light-gray: #DADADA;
         color: $font-gray;
         text-align: justify;
 
-  
         p {
           margin: .5em 4em;
         }
       }
 
-      .update-profile-info-button {
+      // .update-profile-info-button {
+      //   width: calc(100% - 8em);
+  
+      //   button {
+      //     font-size: 1em;
+      //     font-weight: 100;
+      //     width: 100%;
+      //     line-height: 2.5em;
+      //     padding: 0;
+      //     margin: 1em 0 1.5em 0;
+      //     border-radius: 20px;
+      //     background-color: $main-green;
+      //     color: white;
+      //     border: none;
+      //     box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+      //     letter-spacing: .2em;
+      //     transition: transform 0.3s ease;
+      //   }
+  
+      //   button:hover {
+      //     transform: scale(1.025);
+      //   }
+      // }
+
+      .friends-box {
+        border: 2px solid $light-gray;
+        border-radius: 20px;
+        margin: .5em 4em;
         width: calc(100% - 8em);
-  
-        button {
-          font-size: 1em;
-          font-weight: 100;
+
+        .friends-box-header {
           width: 100%;
-          line-height: 2.5em;
+          text-align: center;
+          color: $main-green;
+          font-size: 1.5em;
+
+          p {
+            margin: .5em 0 0 0 ;
+          }
+        }
+
+        .empty-list-info {
+          color: $light-gray;
+          margin: 1em 0 1em 0;
+        }
+
+        ul {
+          list-style-type: none;
           padding: 0;
-          margin: 1em 0 1.5em 0;
-          border-radius: 20px;
-          background-color: $main-green;
-          color: white;
-          border: none;
-          box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
-          letter-spacing: .2em;
-          transition: transform 0.3s ease;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          margin: .25em 0;
+        
+          div {
+            width: 50%;
+            background-color: $main-green;
+            border-radius: 20px;
+            margin: .25em;
+            padding: .25em;
+            box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+
+            li {
+              color: white;
+              font-size: .75em;
+              a {
+                color: white;
+                text-decoration: none;
+                font-weight: 100;
+              }
+            }
+          }
         }
-  
-        button:hover {
-          transform: scale(1.025);
-        }
-      }
+      }  
     }
 
     .sections-container {

@@ -15,11 +15,24 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.username != :username")
     List<User> findAllExceptGivenUser(String username);
 
-    List<User> findAllByCity(City city);
+    @Query("SELECT u FROM User u WHERE u.city = :city AND u.username != :username")
+    List<User> findAllByCityExceptGivenUser(City city, String username);
 
     boolean existsByUsernameOrEmail(String username, String email);
 
     Optional<User> findByUsername(String username);
 
     void deleteByUsername(String username);
+
+    @Query(value = """
+        SELECT
+            u.*
+        FROM
+            friendship f
+        JOIN
+            user_ u ON (u.user_id = CASE WHEN f.member1_id = :userId THEN f.member2_id ELSE f.member1_id END)
+        WHERE\s
+            :userId IN (f.member1_id, f.member2_id)
+    """, nativeQuery = true)
+    List<User> findAllFriendsOfUser(Integer userId);
 }

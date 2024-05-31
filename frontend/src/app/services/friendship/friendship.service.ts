@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FriendInvite } from '../../interfaces/friend-invite.interface';
 import { Friendship } from '../../interfaces/freindship.interface';
+import { User } from '../../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,9 @@ export class FriendshipService {
 
   denyFriendInvite(inviteId: number): Observable<Friendship> {
     return this.http.patch<Friendship>(this.friendshipApiUrl + '/invitations/' + inviteId + '/decline', null);
+  }
+
+  getFriends(): Observable<Array<User>> {
+    return this.http.get<Array<User>>(this.friendshipApiUrl);
   }
 }

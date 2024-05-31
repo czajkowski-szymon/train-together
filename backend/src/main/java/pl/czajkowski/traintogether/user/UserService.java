@@ -67,9 +67,9 @@ public class UserService implements UserDetailsService {
     }
 
     public List<UserDTO> getAllUsersByCity(String city, String username) {
-        return userRepository.findAllByCity(cityRepository.findByName(city).orElseThrow(
+        return userRepository.findAllByCityExceptGivenUser(cityRepository.findByName(city).orElseThrow(
                         () -> new ResourceNotFoundException("City not found")
-                ))
+                ), username)
                 .stream()
                 .map(userMapper::toUserDTO)
                 .toList();

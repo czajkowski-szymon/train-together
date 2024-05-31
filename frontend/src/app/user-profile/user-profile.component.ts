@@ -9,7 +9,6 @@ import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TrainingService } from '../services/training/training.service';
-import { TrainingInviteRequest } from '../interfaces/training-invite-request.interface';
 
 @Component({
   selector: 'app-user-profile',
@@ -42,7 +41,6 @@ export class UserProfileComponent implements OnInit {
         this.user = response
         this.userService.isUserFriend(this.user?.userId).subscribe(response => {
           this.isFriend = response;
-          console.log(this.isFriend);
         });
       })
     });
@@ -85,8 +83,6 @@ export class UserProfileComponent implements OnInit {
       message: message!,
       senderId: senderId!,
       receiverId: receiverId!
-    }).subscribe(response => {
-      console.log(response);
-    });
+    }).subscribe();
   }
 }

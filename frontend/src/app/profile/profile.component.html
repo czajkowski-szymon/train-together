@@ -17,8 +17,24 @@
       <div class="bio">
         <p>{{ user?.bio }}</p>
       </div>
-      <div class="update-profile-info-button">
-        <button>UPDATE INFO</button>
+      <div class="friends-box">
+        <div class="friends-box-header">
+          <p>FRIENDS LIST</p>
+          @if (this.friendsList?.length === 0) {
+            <p class="empty-list-info">No friends</p>
+          }
+          <ul>
+            @for(friend of friendsList; track friend) {
+              <div>
+                <li>
+                  <a [routerLink]="['/', friend.username]">
+                    {{ friend.firstName }}
+                  </a>
+                </li>
+              </div>
+            }
+          </ul>
+        </div>
       </div>
     </section>
     <div class="sections-container">
@@ -30,7 +46,8 @@
           <ul>
             @if (upcomingTrainings?.length === 0) {
             <p class="empty-list-info">No upcoming trainings</p>
-            } @for(training of upcomingTrainings; track training.trainingId) {
+            } 
+            @for(training of upcomingTrainings; track training.trainingId) {
             <div>
               <li>
                 {{ training.sport.name }} with

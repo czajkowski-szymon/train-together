@@ -3,6 +3,9 @@ package pl.czajkowski.traintogether.friendship;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import pl.czajkowski.traintogether.friendship.models.Friendship;
+import pl.czajkowski.traintogether.user.models.User;
+
+import java.util.List;
 
 public interface FriendshipRepository extends JpaRepository<Friendship, Integer> {
 

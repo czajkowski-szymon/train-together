@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
   pastTrainings?: Array<Training> | null | undefined;
   trainingInvites?: Array<TrainingInvite> | null | undefined;
   friendInvites?: Array<FriendInvite> | null | undefined;
+  friendsList?: Array<User> | null | undefined;
 
   ngOnInit(): void {
     this.authService.authenticate().subscribe((response) => {
@@ -50,6 +51,10 @@ export class ProfileComponent implements OnInit {
 
     this.freindshipService.getAllFriendInvites().subscribe((response) => {
       this.friendInvites = response;
+    });
+
+    this.freindshipService.getFriends().subscribe(response => {
+      this.friendsList = response;
     });
   }
 
