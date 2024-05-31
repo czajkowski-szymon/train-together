@@ -1,0 +1,20 @@
+<h2>CHOOSE FAVOURITE SPORTS</h2>
+<form [formGroup]="sportsForm" (ngSubmit)="onSubmit()">
+  <div class="options-container">
+    @for (sport of sports; track sport) {
+    <label [for]="sport.sportId">
+      <div class="field">
+        <input
+          [id]="sport.sportId"
+          type="checkbox"
+          [formControlName]="sport.sportId"
+        />
+        {{ sport.name }}
+      </div>
+    </label>
+    }
+  </div>
+  <div class="button">
+    <button type="submit">NEXT</button>
+  </div>
+</form>

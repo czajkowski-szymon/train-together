@@ -11,6 +11,8 @@ import pl.czajkowski.traintogether.exception.UserNotFoundException;
 import pl.czajkowski.traintogether.exception.UsernameOrEmailAlreadyExistsException;
 import pl.czajkowski.traintogether.city.CityRepository;
 import pl.czajkowski.traintogether.friendship.FriendshipRepository;
+import pl.czajkowski.traintogether.sport.Sport;
+import pl.czajkowski.traintogether.sport.SportRepository;
 import pl.czajkowski.traintogether.user.models.*;
 
 import java.io.File;
@@ -18,9 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static pl.czajkowski.traintogether.user.models.Role.USER;
@@ -40,16 +40,20 @@ public class UserService implements UserDetailsService {
 
     private final PasswordEncoder encoder;
 
+    private final SportRepository sportRepository;
+
     public UserService(UserRepository userRepository,
                        CityRepository cityRepository,
                        FriendshipRepository friendshipRepository,
                        UserMapper userMapper,
-                       PasswordEncoder encoder) {
+                       PasswordEncoder encoder,
+                       SportRepository sportRepository) {
         this.userRepository = userRepository;
         this.cityRepository = cityRepository;
         this.friendshipRepository = friendshipRepository;
         this.userMapper = userMapper;
         this.encoder = encoder;
+        this.sportRepository = sportRepository;
     }
 
     public UserDTO register(RegistrationRequest request) {
@@ -140,7 +144,7 @@ public class UserService implements UserDetailsService {
         user.setBio(request.bio());
         user.setCity(cityRepository.findByName(request.city()).get());
         user.setRole(USER);
-
+        user.setSports(sportRepository.findAllById(Arrays.asList(request.sportIds())));
         return user;
     }
 

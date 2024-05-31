@@ -1,5 +1,6 @@
 $main-green: #08A045;
 $font-gray: #9D9D9D;
+$light-gray: #DADADA;
 
 .container {
   width: 100%;
@@ -38,75 +39,119 @@ $font-gray: #9D9D9D;
     flex-direction: column;
     align-items: center;
 
-    .register-form {
+    app-sports-form {
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 100%
+    }
+
+    h2 {
+      color: $main-green;
+      font-size: 1.5em;
+      font-weight: 100;
+    }
+
+    .field {
       width: 100%;
+      display: flex;
+      justify-content: center;
 
-      .field {
-        width: 100%;
-        margin: .5em 0;
-      
-        input, textarea, select {
-          width: calc(100% - 2em);
-          line-height: 2.5em;
-          font-size: 1.25em;
-          padding: 0 1em;
-          border-radius: 20px;
-          border: 1px solid #DADADA;
-          background: #FFF;
-          box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.25) inset;
-          color: $font-gray;
-        }
-
-        textarea {
-            resize: none;
-            font-family: Arial, sans-serif;
-            padding-top: 1em;
-            line-height: 1em;
-        }
-
-        select {
-          width: 100%;
-          height: 2.5em;
-        }
-
-        input:focus, textarea:focus, select:focus {
-          outline-color: $font-gray;
-          outline-width: 1px;
-        }
-      
-        input::placeholder, textarea::placeholder {
-            color: $font-gray;
-        }
+      input {
+        border: 2px solid $light-gray;
+        border-radius: 20px;
+        padding: 1em;
       }
 
-      .button {
-        width: 100%;
-        margin: 1em 0;
+      input::file-selector-button {
+        font-size: 1.25em;
+        line-height: 1.25em;
+        padding: .75em;
+        margin: 0 .5em;
+        border-radius: 20px;
+        background-color: $main-green;
+        color: white;
+        border: none;
+        box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+        transition: transform 0.3s ease;
+      }
 
-        button {
-          font-size: 1.25em;
-          font-weight: 100;
-          width: 100%;
-          line-height: 2.5em;
-          padding: 0;
-          margin-top: 2em;
-          border-radius: 20px;
-          background-color: $main-green;
-          color: white;
-          border: none;
-          box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
-          letter-spacing: .3em;
-          transition: transform 0.3s ease;
-        }
-
-        button:hover {
-          transform: scale(1.025);
-        }
+      input::file-selector-button:hover {
+        transform: scale(1.025);
       }
     }
+
+    .button {
+      width: 100%;
+      margin: 1em 0;
+
+      button {
+        font-size: 1.25em;
+        font-weight: 100;
+        line-height: 2.5em;
+        width: 100%;
+        padding: 0;
+        margin-top: 2em;
+        border-radius: 20px;
+        background-color: $main-green;
+        color: white;
+        border: none;
+        box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+        letter-spacing: .3em;
+        transition: transform 0.3s ease;
+      }
+
+      button:hover {
+        transform: scale(1.025);
+      }
+    }
+
+    // .register-form {
+    //   display: flex;
+    //   flex-direction: column;
+    //   align-items: center;
+    //   width: 100%;
+
+    //   .field {
+    //     width: 100%;
+    //     margin: .5em 0;
+      
+    //     input, textarea, select {
+    //       width: calc(100% - 2em);
+    //       line-height: 2.5em;
+    //       font-size: 1.25em;
+    //       padding: 0 1em;
+    //       border-radius: 20px;
+    //       border: 1px solid #DADADA;
+    //       background: #FFF;
+    //       box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.25) inset;
+    //       color: $font-gray;
+    //     }
+
+    //     textarea {
+    //         resize: none;
+    //         font-family: Arial, sans-serif;
+    //         padding-top: 1em;
+    //         line-height: 1em;
+    //     }
+
+    //     select {
+    //       width: 100%;
+    //       height: 2.5em;
+    //     }
+
+    //     input:focus, textarea:focus, select:focus {
+    //       outline-color: $font-gray;
+    //       outline-width: 1px;
+    //     }
+      
+    //     input::placeholder, textarea::placeholder {
+    //         color: $font-gray;
+    //     }
+    //   }
+
+
+    // }
 
     .login-link {
       font-size: .9em;

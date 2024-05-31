@@ -3,8 +3,9 @@ export interface RegistrationRequest {
     email: string;
     password: string;
     firstName: string;
-    dateOfBirth: Date;
+    dateOfBirth?: Date;
     gender: string;
     bio: string;
     city: string;
+    sportIds: number[];
 }

@@ -10,6 +10,7 @@ public record RegistrationRequest(
         LocalDate dateOfBirth,
         Gender gender,
         String bio,
-        String city
+        String city,
+        Integer[] sportIds
 ) {
 }

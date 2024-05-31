@@ -6,57 +6,32 @@
     </div>
   </header>
   <main class="register-container">
-    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    @if (this.registerStep === 1) {
+      <app-credentials-form
+        (formSubmitted)="handleCredentialsFormSubmission($event)"
+      ></app-credentials-form>
+    } @if (this.registerStep === 2) {
+      <app-personal-info-form
+        [cities]="cities"
+        (formSubmitted)="handlePersonalInfoFormSubmission($event)"
+      ></app-personal-info-form>
+    } @if (this.registerStep === 3) {
+      <app-sports-form
+        [sports]="sports"
+        (formSubmitted)="handleSportsFormSubmission($event)"
+      ></app-sports-form>
+    } @if (this.registerStep === 4) {
+      <h2 class="profile-picture-header">UPLOAD PROFILE PICTURE</h2>
       <div class="field">
-        <input type="text" formControlName="username" placeholder="Username" />
+        <input type="file" (change)="onFileSelected($event)" required />
       </div>
-      <div class="field">
-        <input type="email" formControlName="email" placeholder="Email"/>
-      </div>
-      <div class="field">
-        <input type="password" formControlName="password" placeholder="Password"/>
-      </div>
-      <div class="field">
-        <input type="password" formControlName="confirmedPassword" placeholder="Confirm Password"/>
-      </div>
-      <div class="field">
-        <input type="text" formControlName="firstName" placeholder="First Name"/>
-      </div>
-      <div class="field">
-        <textarea formControlName="bio" placeholder="Bio" cols="21" rows="10"></textarea>
-      </div>
-      <div class="field">
-        <select id="gender" formControlName="gender">
-          <option value="" disabled selected hidden>Gender</option>
-          <option value="FEMALE">Female</option>
-          <option value="MALE">Male</option>
-        </select>
-      </div>
-      <div class="field"> 
-        <input 
-          type="text" 
-          onfocus="this.type='date'" 
-          onblur="this.type='text'" 
-          formControlName="dateOfBirth" 
-          placeholder="Birthday"
-        >
-      </div>
-      <div class="field">
-        <select id="city" formControlName="city">
-          <option value="" disabled selected hidden>City</option>
-          @for (city of cities; track $index) {
-              <option value="{{ city.name }}">{{ city.name }}</option>
-          }
-        </select>
-      </div>
-      <div class="field">
-        <input type="file" (change)="onFileSelected($event)" required>
-      </div>
-
       <div class="button">
-        <button type="submit">SIGN UP</button>
+        <button (click)="register()">SIGN UP</button>
       </div>
-    </form>
-    <p class="login-link">Already have an account? <a routerLink="/login">Sign in</a></p>
+    }
+
+    <p class="login-link">
+      Already have an account? <a routerLink="/login">Sign in</a>
+    </p>
   </main>
 </div>
