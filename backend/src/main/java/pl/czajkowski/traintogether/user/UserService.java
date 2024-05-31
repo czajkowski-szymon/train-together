@@ -109,6 +109,13 @@ public class UserService implements UserDetailsService {
         return friendshipRepository.exists(userId, user.getUserId());
     }
 
+    public List<Sport> getAllUsersSports(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new UserNotFoundException("User not found")
+        );
+        return user.getSports();
+    }
+
     public void uploadProfilePicture(Integer userId, MultipartFile file) {
         File uploadDir = new File(UPLOAD_DIRECTORY);
         if (!uploadDir.exists()) {
@@ -183,5 +190,9 @@ public class UserService implements UserDetailsService {
         } catch (IOException e) {
             throw new RuntimeException("Could not retrieve the file. Error: " + e.getMessage());
         }
+    }
+
+    public boolean checkIfUsernameAndEmailAreAvailable(String username, String email) {
+        return !userRepository.existsByUsernameOrEmail(username, email);
     }
 }

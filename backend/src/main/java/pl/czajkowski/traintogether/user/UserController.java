@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pl.czajkowski.traintogether.sport.Sport;
 import pl.czajkowski.traintogether.user.models.RegistrationRequest;
 import pl.czajkowski.traintogether.user.models.UpdateUserRequest;
 import pl.czajkowski.traintogether.user.models.UserDTO;
@@ -48,6 +49,16 @@ public class UserController {
         return userService.isUserFriend(userId, user.getName());
     }
 
+    @GetMapping("/{userId}/sports")
+    public List<Sport> getAllUsersSports(@PathVariable Integer userId) {
+        return userService.getAllUsersSports(userId);
+    }
+
+    @GetMapping("/isavailable/{username}/{email}")
+    public boolean checkIfUsernameAndEmailAreAvailable(@PathVariable("username") String username,
+                                                       @PathVariable("email") String email) {
+        return userService.checkIfUsernameAndEmailAreAvailable(username, email);
+    }
 
     @PutMapping
     public ResponseEntity<UserDTO> updateUser(@RequestBody UpdateUserRequest request, Authentication user) {

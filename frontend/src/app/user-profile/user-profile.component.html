@@ -14,6 +14,15 @@
       <div class="city">
         <p>{{ user?.city?.name }}</p>
       </div>
+      <div class="sports">
+        <ul>
+          @for (sport of sports; track sport) {
+            <li> 
+              <div> {{ sport.name }} </div> 
+            </li>
+          }
+        </ul>
+      </div>
       <div class="bio">
         <p>{{ user?.bio }}</p>
       </div>
@@ -25,14 +34,21 @@
           <p>{{ this.message }}</p>
         }
 			</div>
+      @if (isLoggedUserAdmin) {
+        <div class="admin-buttons">
+          <button (click)="deleteUserAccount()">DELETE</button>
+          <button (click)="blockUserAccount()">BLOCK</button>
+        </div>
+      }
     </section>
     <section class="training-invite">
       <form class="invite-form" [formGroup]="trainingInviteForm" (ngSubmit)="onSubmit()">
         <div class="field">
           <select id="sports" formControlName="sport">
             <option value="" disabled selected hidden>Sport</option>
-            <option value="Football">Football</option>
-            <option value="Basketball">Basketball</option>
+            @for (sport of sports; track sport) {
+              <option value="{{ sport.name }}">{{ sport.name }}</option>
+            }
           </select>
         </div>
         <div class="field">

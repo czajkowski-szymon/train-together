@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../../interfaces/user.interface';
 import { RegistrationRequest } from '../../interfaces/registration-request.interface';
+import { Sport } from '../../interfaces/sport.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,13 @@ export class UserService {
 
   isUserFriend(userId: number | undefined): Observable<boolean> {
     return this.http.get<boolean>(this.usersApiUrl + '/isfriend/' + userId);
+  }
+
+  getUsersSports(userId: number | undefined): Observable<Sport[]> {
+    return this.http.get<Sport[]>(this.usersApiUrl + '/' + userId + '/sports');
+  }
+
+  areCredentialsAvailable(username: string, email: string): Observable<boolean> {
+    return this.http.get<boolean>(this.usersApiUrl + '/isavailable/' + username + '/' + email);
   }
 }

@@ -9,6 +9,8 @@ import { catchError, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TrainingService } from '../services/training/training.service';
+import { Sport } from '../interfaces/sport.interface';
+import { AdminService } from '../services/admin/admin.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -21,6 +23,7 @@ export class UserProfileComponent implements OnInit {
   fb: FormBuilder = inject(FormBuilder);
   authService: AuthService = inject(AuthService);
   userService: UserService = inject(UserService);
+  adminService: AdminService = inject(AdminService);
   friendshipService: FriendshipService = inject(FriendshipService);
   trainingService: TrainingService = inject(TrainingService); 
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -28,6 +31,8 @@ export class UserProfileComponent implements OnInit {
   user?: User;
   message?: string = "";
   isFriend?: boolean;
+  isLoggedUserAdmin!: boolean;
+  sports: Sport[] = [];
   trainingInviteForm = this.fb.group({
     sport: ['', Validators.required],
     date: ['', Validators.required],
@@ -38,8 +43,11 @@ export class UserProfileComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.username = params.get('username') || "";
       this.userService.getUserByUsername(this.username).subscribe(response => {
+        this.isLoggedUserAdmin = this.authService.currentUserSignal()?.role === 'ADMIN'
+        console.log(this.isLoggedUserAdmin);
         this.user = response
         this.userService.isUserFriend(this.user?.userId).subscribe(response => {
+          this.getUsersSports();
           this.isFriend = response;
         });
       })
@@ -65,6 +73,21 @@ export class UserProfileComponent implements OnInit {
         }
       })
     }
+  }
+
+  getUsersSports(): void {
+    this.userService.getUsersSports(this.user?.userId).subscribe(sports => {
+      console.log(sports);
+      this.sports = sports;
+    });
+  }
+
+  deleteUserAccount(): void {
+    this.adminService.deleteUserAccount(this.user?.userId).subscribe();
+  }
+
+  blockUserAccount(): void {
+    this.adminService.blockUserAccount(this.user?.userId).subscribe();
   }
 
   onSubmit(): void {

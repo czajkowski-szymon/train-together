@@ -18,6 +18,9 @@
 				<button type="submit">SIGN IN</button>
 			</div>
 		</form>
+		@if (this.message) {
+			<p>{{ this.message }}</p>
+		}
 		<p class="register-link">New to TrainTogether? <a routerLink="/register">Create an account</a></p>
   </main>
 </div>
