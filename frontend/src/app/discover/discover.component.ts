@@ -5,11 +5,12 @@ import { ProfileCardComponent } from './profile-card/profile-card.component';
 import { UserService } from '../services/user/user.service';
 import { User } from '../interfaces/user.interface';
 import { FormsModule } from '@angular/forms';
+import { MobileFooterComponent } from '../mobile-footer/mobile-footer.component';
 
 @Component({
   selector: 'app-discover',
   standalone: true,
-  imports: [NavBarComponent, NgFor, ProfileCardComponent, FormsModule],
+  imports: [NavBarComponent, NgFor, ProfileCardComponent, FormsModule, MobileFooterComponent],
   templateUrl: './discover.component.html',
   styleUrl: './discover.component.scss'
 })

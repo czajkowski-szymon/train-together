@@ -35,7 +35,7 @@
       </div>
 			<div class="invite-button">
         @if (!this.isFriend) {
-          <button (click)="sendFriendInvite()">INVITE TO FRIENDS</button>
+          <button (click)="sendFriendInvite()">ADD FRIEND</button>
         }
         @if (this.message) {
           <p>{{ this.message }}</p>
@@ -77,3 +77,4 @@
     </section>
 	</main>
 </div>
+<app-mobile-footer></app-mobile-footer>

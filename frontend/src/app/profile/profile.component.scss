@@ -60,42 +60,19 @@ $light-gray: #DADADA;
       .bio {
         font-size: 1em;
         color: $font-gray;
-        text-align: justify;
+        text-align: center;
 
         p {
-          margin: .5em 4em;
+          margin: .5em 1em;
         }
       }
-
-      // .update-profile-info-button {
-      //   width: calc(100% - 8em);
-  
-      //   button {
-      //     font-size: 1em;
-      //     font-weight: 100;
-      //     width: 100%;
-      //     line-height: 2.5em;
-      //     padding: 0;
-      //     margin: 1em 0 1.5em 0;
-      //     border-radius: 20px;
-      //     background-color: $main-green;
-      //     color: white;
-      //     border: none;
-      //     box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
-      //     letter-spacing: .2em;
-      //     transition: transform 0.3s ease;
-      //   }
-  
-      //   button:hover {
-      //     transform: scale(1.025);
-      //   }
-      // }
 
       .friends-box {
         border: 2px solid $light-gray;
         border-radius: 20px;
         margin: .5em 4em;
         width: calc(100% - 8em);
+        width: 90%;
 
         .friends-box-header {
           width: 100%;
@@ -230,6 +207,8 @@ $light-gray: #DADADA;
               li {
                 color: $main-green;
                 color: white;
+                text-align: center;
+
                 a {
                   color: white;
                   text-decoration: none;
@@ -241,5 +220,73 @@ $light-gray: #DADADA;
         }
       }
     }
+  }
+}
+
+app-mobile-footer {
+  display:none;
+}
+
+@media only screen and (max-device-width: 1200px) { 
+  .container {
+
+    main {
+      width: 80%;
+    }
+  }
+}
+
+@media only screen and (max-device-width: 922px) {
+  .container {
+
+    main {
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 2em;
+
+      .user-info {
+        width: 100%;
+
+        .bio {
+          display: flex;
+          justify-content: center;
+
+          p {
+            width: 80%;
+            margin: 0;
+          }
+        }
+
+        .friends-box {
+          width: 90%;
+        }
+      }
+
+      .sections-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .trainings-invites {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .notification-box {
+            width: 90%;
+
+            li {
+              text-align: center;
+            }
+          }
+        }
+      }      
+    }
+  }
+
+  app-mobile-footer {
+    display:block;
   }
 }

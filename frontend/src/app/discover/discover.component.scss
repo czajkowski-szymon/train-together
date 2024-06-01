@@ -49,3 +49,39 @@ $light-gray: #DADADA;
     }
   }
 }
+
+app-mobile-footer {
+  display: none;
+}
+
+@media only screen and (max-device-width: 922px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5em;
+
+    main {
+      width: 90%;
+
+
+      .search-panel {
+        display: flex;
+      }
+
+      .profiles {
+        display: flex;
+        flex-direction: column;
+
+        app-profile-card {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  app-mobile-footer {
+    display:block;
+  }
+  
+}

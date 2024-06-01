@@ -11,11 +11,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TrainingService } from '../services/training/training.service';
 import { Sport } from '../interfaces/sport.interface';
 import { AdminService } from '../services/admin/admin.service';
+import { MobileFooterComponent } from '../mobile-footer/mobile-footer.component';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [NavBarComponent, ReactiveFormsModule],
+  imports: [NavBarComponent, ReactiveFormsModule, MobileFooterComponent],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss'
 })

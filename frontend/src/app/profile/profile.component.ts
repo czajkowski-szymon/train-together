@@ -9,11 +9,12 @@ import { FriendInvite } from '../interfaces/friend-invite.interface';
 import { FriendshipService } from '../services/friendship/friendship.service';
 import { TrainingInvite } from '../interfaces/training-invite.interface';
 import { Router, RouterLink } from '@angular/router';
+import { MobileFooterComponent } from '../mobile-footer/mobile-footer.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NavBarComponent, DatePipe, RouterLink],
+  imports: [NavBarComponent, DatePipe, RouterLink, MobileFooterComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })

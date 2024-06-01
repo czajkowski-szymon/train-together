@@ -35,3 +35,13 @@ nav {
 		}
 	}
 }
+
+@media only screen and (max-device-width: 922px) {
+  nav {
+    justify-content: center;
+
+    .link-panel {
+      display: none;
+    }
+  }
+}
