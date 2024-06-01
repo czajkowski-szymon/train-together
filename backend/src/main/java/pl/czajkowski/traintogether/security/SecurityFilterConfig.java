@@ -36,7 +36,8 @@ public class SecurityFilterConfig {
                                 "/swagger-ui/**",
                                 "/api/v1/users/{userId}/profile-picture",
                                 "api/v1/sports",
-                                "api/v1/users/isavailable/**"
+                                "api/v1/users/isavailable/**",
+                                "api/v1/users/publish"
                         )
                         .permitAll()
                         .requestMatchers( "/api/v1/admin/**")

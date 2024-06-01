@@ -1,10 +1,13 @@
 package pl.czajkowski.traintogether.user;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pl.czajkowski.traintogether.auth.models.LoginRequest;
+import pl.czajkowski.traintogether.rabbitmq.RabbitMQConfig;
 import pl.czajkowski.traintogether.sport.Sport;
 import pl.czajkowski.traintogether.user.models.RegistrationRequest;
 import pl.czajkowski.traintogether.user.models.UpdateUserRequest;
@@ -18,9 +21,17 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final RabbitTemplate template;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RabbitTemplate template) {
         this.userService = userService;
+        this.template = template;
+    }
+
+    @PostMapping("/publish")
+    public String publish(@RequestBody LoginRequest request) {
+        template.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTING_KEY, request);
+        return "Wyslano";
     }
 
     @PostMapping("/register")
