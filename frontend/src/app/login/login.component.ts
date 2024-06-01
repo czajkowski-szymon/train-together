@@ -22,12 +22,14 @@ export class LoginComponent {
   authService: AuthService = inject(AuthService);
   router: Router = inject(Router);
   message!: string;
+  submitted = false;
   loginForm = this.fb.group({
     username: ['', Validators.required],
     password: ['', Validators.required],
   });
 
   onSubmit(): void {
+    this.submitted = true;
     this.authService
       .login({
         username: this.loginForm.get('username')?.value!,

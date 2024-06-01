@@ -7,20 +7,26 @@
   </header>
   <main class="login-container">
     <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-			<div class="field">
-				<input type="text" formControlName="username" placeholder="Username">
-			</div>
-			<div class="field">
-				<input type="password" formControlName="password" placeholder="Password">
-			</div>
+      <div class="field">
+        <input type="text" formControlName="username" placeholder="Username" />
+      </div>
+      <div class="field">
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+        />
+      </div>
 
-			<div class="button">
-				<button type="submit">SIGN IN</button>
-			</div>
-		</form>
-		@if (this.message) {
-			<p>{{ this.message }}</p>
-		}
-		<p class="register-link">New to TrainTogether? <a routerLink="/register">Create an account</a></p>
+      <div class="button">
+        <button type="submit">SIGN IN</button>
+      </div>
+    </form>
+    @if (this.message) {
+    <p>{{ this.message }}</p>
+    }
+    <p class="register-link">
+      New to TrainTogether? <a routerLink="/register">Create an account</a>
+    </p>
   </main>
 </div>

@@ -15,13 +15,18 @@ export class CredentialsFormComponent {
   fb: FormBuilder = inject(FormBuilder);
   userService: UserService = inject(UserService);
   message!: string;
-  isAvailable!: boolean; 
+  isAvailable!: boolean;
+  submitted = false; 
   @Output() formSubmitted: EventEmitter<any> = new EventEmitter();
   credentialsForm: FormGroup = this.fb.group({
     username: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   }); 
+
+  get credentialsFormControl() {
+    return this.credentialsForm.controls;
+  }
 
   async areCredentialsAvailable(): Promise<boolean> {
     const username = this.credentialsForm.get('username')?.value;
@@ -31,12 +36,15 @@ export class CredentialsFormComponent {
   }
 
   async onSubmit(): Promise<void> {
-    this.isAvailable = await this.areCredentialsAvailable();
-    console.log(this.isAvailable);
-    if (this.credentialsForm.valid && this.isAvailable) {
-      this.formSubmitted.emit(this.credentialsForm.value);
-    } else {
-      this.message = 'Email or username already taken';
+    this.submitted = true;
+    if (this.credentialsForm.valid) {
+      this.isAvailable = await this.areCredentialsAvailable();
+      console.log(this.isAvailable);
+      if (this.credentialsForm.valid && this.isAvailable) {
+        this.formSubmitted.emit(this.credentialsForm.value);
+      } else {
+        this.message = 'Email or username already taken';
+      }
     }
   }
 }

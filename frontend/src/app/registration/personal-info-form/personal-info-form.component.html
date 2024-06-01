@@ -1,35 +1,55 @@
 <form [formGroup]="personalInfoForm" (ngSubmit)="onSubmit()">
-	<div class="field">
-		<input type="text" formControlName="firstName" placeholder="First Name"/>
-	</div>
-	<div class="field">
-		<textarea formControlName="bio" placeholder="Bio" cols="21" rows="10"></textarea>
-	</div>
-	<div class="field">
-		<select id="gender" formControlName="gender">
-			<option value="" disabled selected hidden>Gender</option>
-			<option value="FEMALE">Female</option>
-			<option value="MALE">Male</option>
-		</select>
-	</div>
-	<div class="field"> 
-		<input 
-			type="text" 
-			onfocus="this.type='date'" 
-			onblur="this.type='text'" 
-			formControlName="dateOfBirth" 
-			placeholder="Birthday"
-		>
-	</div>
-	<div class="field">
-		<select id="city" formControlName="city">
-			<option value="" disabled selected hidden>City</option>
-			@for (city of cities; track $index) {
-					<option value="{{ city.name }}">{{ city.name }}</option>
-			}
-		</select>
-	</div>
-	<div class="button">
+  <div class="field">
+    <input type="text" formControlName="firstName" placeholder="First Name" />
+  </div>
+  @if ((personalInfoFormControl['firstName'].touched || submitted) && personalInfoFormControl['firstName'].errors?.['required']) {
+    <span style="color: #08a045">Name is required</span>
+  }
+  <div class="field">
+    <textarea
+      formControlName="bio"
+      placeholder="Bio"
+      cols="21"
+      rows="10"
+    ></textarea>
+  </div>
+  <div class="field">
+    <select id="gender" formControlName="gender">
+      <option value="" disabled selected hidden>Gender</option>
+      <option value="FEMALE">Female</option>
+      <option value="MALE">Male</option>
+    </select>
+  </div>
+  @if ((personalInfoFormControl['gender'].touched || submitted) && personalInfoFormControl['gender'].errors?.['required']) {
+    <span style="color: #08a045">Gender is required</span>
+  }
+  <div class="field">
+    <input
+      type="text"
+      onfocus="this.type='date'"
+      onblur="this.type='text'"
+      formControlName="dateOfBirth"
+      placeholder="Birthday"
+    />
+  </div>
+  @if ((personalInfoFormControl['dateOfBirth'].touched || submitted) && personalInfoFormControl['dateOfBirth'].errors?.['required']) {
+    <span style="color: #08a045">Date of birth is required</span>
+  }
+  @if ((personalInfoFormControl['dateOfBirth'].touched || submitted) && personalInfoFormControl['dateOfBirth'].errors?.['minAge']) {
+	<span style="color: #08a045">You must be at least 18</span>
+  }
+  <div class="field">
+    <select id="city" formControlName="city">
+      <option value="" disabled selected hidden>City</option>
+      @for (city of cities; track $index) {
+      <option value="{{ city.name }}">{{ city.name }}</option>
+      }
+    </select>
+  </div>
+  @if ((personalInfoFormControl['city'].touched || submitted) && personalInfoFormControl['city'].errors?.['required']) {
+    <span style="color: #08a045">City is required</span>
+  }
+  <div class="button">
     <button type="submit">NEXT</button>
   </div>
 </form>

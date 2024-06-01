@@ -3,10 +3,17 @@
   <main>
     <section class="user-info">
       <div class="profile-picture">
-        <img
-          [src]="'http://localhost:8080/api/v1/users/' + user?.userId + '/profile-picture'"
-          alt="Profile picture"
-        />
+        @if (user?.profilePictureId) {
+          <img
+            [src]="'http://localhost:8080/api/v1/users/' + user?.userId + '/profile-picture'"
+            alt="Profile picture"
+          />
+        } @else {
+          <img
+            src="../../../assets/img/avatar.jpg"
+            alt="Profile picture"
+          />
+        }
       </div>
       <div class="name">
         <p>{{ user?.firstName }}</p>
