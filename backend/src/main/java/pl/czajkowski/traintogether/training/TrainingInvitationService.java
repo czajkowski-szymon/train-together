@@ -1,12 +1,15 @@
 package pl.czajkowski.traintogether.training;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import pl.czajkowski.traintogether.exception.ResourceNotFoundException;
 import pl.czajkowski.traintogether.exception.TrainingOwnershipException;
 import pl.czajkowski.traintogether.exception.UserNotFoundException;
+import pl.czajkowski.traintogether.rabbitmq.RabbitMQConfig;
 import pl.czajkowski.traintogether.sport.SportRepository;
 import pl.czajkowski.traintogether.training.models.*;
 import pl.czajkowski.traintogether.user.UserRepository;
+import pl.czajkowski.traintogether.user.models.User;
 
 import java.util.List;
 
@@ -23,32 +26,47 @@ public class TrainingInvitationService {
 
     private final TrainingMapper trainingMapper;
 
+    private final RabbitTemplate template;
+
     public TrainingInvitationService(TrainingInvitationRepository trainingInvitationRepository,
                                      TrainingRepository trainingRepository,
                                      UserRepository userRepository,
                                      SportRepository sportRepository,
-                                     TrainingMapper trainingMapper) {
+                                     TrainingMapper trainingMapper,
+                                     RabbitTemplate template) {
         this.trainingInvitationRepository = trainingInvitationRepository;
         this.trainingRepository = trainingRepository;
         this.userRepository = userRepository;
         this.sportRepository = sportRepository;
         this.trainingMapper = trainingMapper;
+        this.template = template;
     }
 
     public TrainingInvitationDTO addTrainingInvitation(TrainingInvitationRequest request) {
+        User sender = userRepository.findById(request.senderId()).orElseThrow(
+                () -> new UserNotFoundException("User wit id: %d not found".formatted(request.senderId()))
+        );
+        User receiver = userRepository.findById(request.receiverId()).orElseThrow(
+                () -> new UserNotFoundException("User wit id: %d not found".formatted(request.receiverId()))
+        );
         TrainingInvitation invitation = new TrainingInvitation();
         invitation.setDate(request.date());
-        System.out.println(request);
         invitation.setSport(sportRepository.findSportByName(request.sport()).orElseThrow(
                 () -> new ResourceNotFoundException("Sport not found")
         ));
         invitation.setMessage(request.message());
-        invitation.setSender(userRepository.findById(request.senderId()).orElseThrow(
-                () -> new UserNotFoundException("User wit id: %d not found".formatted(request.senderId()))
-        ));
-        invitation.setReceiver(userRepository.findById(request.receiverId()).orElseThrow(
-                () -> new UserNotFoundException("User wit id: %d not found".formatted(request.receiverId()))
-        ));
+        invitation.setSender(sender);
+        invitation.setReceiver(receiver);
+
+        TrainingInvitationMessage tim = new TrainingInvitationMessage(
+                request.date(),
+                request.sport(),
+                request.message(),
+                sender.getFirstName(),
+                receiver.getFirstName(),
+                receiver.getEmail()
+        );
+        template.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTING_KEY, tim);
 
         return trainingMapper.toTrainingInvitationDTO(trainingInvitationRepository.save(invitation));
     }

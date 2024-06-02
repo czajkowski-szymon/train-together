@@ -1,2 +1,15 @@
 server:
   port: 8081
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: traintogether1337@gmail.com
+    password: aqzzcqvwtmsuhqne
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

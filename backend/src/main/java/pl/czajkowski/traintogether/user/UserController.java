@@ -21,17 +21,9 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final RabbitTemplate template;
 
-    public UserController(UserService userService, RabbitTemplate template) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.template = template;
-    }
-
-    @PostMapping("/publish")
-    public String publish(@RequestBody LoginRequest request) {
-        template.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTING_KEY, request);
-        return "Wyslano";
     }
 
     @PostMapping("/register")

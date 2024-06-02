@@ -14,7 +14,7 @@ export class NavBarComponent {
   router: Router = inject(Router);
 
   logout(): void {
-    localStorage.setItem('token', '');
+    localStorage.removeItem('token');
     this.authService.currentUserSignal.set(null);
     this.router.navigateByUrl("/login");
   }
