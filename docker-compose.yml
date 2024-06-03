@@ -10,6 +10,41 @@ services:
       - "5432:5432"
     volumes:
       - postgres:/var/lib/postgres/data
+    # networks:
+    #   - traintogether
+
+  # spring-api:
+  #   container_name: spring-api
+  #   image: traintogether-api
+  #   build: ./backend/
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - traintogether
+  #   depends_on:
+  #     - postgres-db
+
+  # email-service:
+  #   container_name: email-service
+  #   image: email-service
+  #   build: ./emailservice/
+  #   ports:
+  #     - "8081:8081"
+  #   networks:
+  #     - traintogether
+  #   depends_on:
+  #     - spring-api
+
+  # angular-ui:
+  #   container_name: angular-ui
+  #   image: angular-ui
+  #   build: ./frontend/
+  #   ports:
+  #     - "4201:4200"
+  #   networks:
+  #     - traintogether
+  #   depends_on:
+  #     - spring-api
 
   rabbitmq:
     image: rabbitmq:3.13.2-management-alpine
@@ -17,6 +52,11 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    
+
+# networks:
+#   traintogether:
+#     driver: bridge
 
 volumes:
   postgres:

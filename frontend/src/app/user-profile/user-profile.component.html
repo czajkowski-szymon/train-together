@@ -38,7 +38,7 @@
           <button (click)="sendFriendInvite()">ADD FRIEND</button>
         }
         @if (this.message) {
-          <p>{{ this.message }}</p>
+          <p style="text-align: center; color: #08a045;">{{ this.message }}</p>
         }
 			</div>
       @if (isLoggedUserAdmin) {
@@ -58,6 +58,9 @@
             }
           </select>
         </div>
+        @if ((trainingInviteForm.controls['sport'].touched || submitted) && trainingInviteForm.controls['sport'].errors?.['required']) {
+          <span style="color: #08a045;">Sport is required</span>
+        }
         <div class="field">
           <input 
             type="text" 
@@ -67,11 +70,20 @@
             placeholder="Date"
           >
         </div>
+        @if ((trainingInviteForm.controls['date'].touched || submitted) && trainingInviteForm.controls['date'].errors?.['required']) {
+          <span style="color: #08a045;">Date is required</span>
+        }
+        @if (trainingInviteForm.controls['date'].errors?.['futureDate']) {
+          <span style="color: #08a045;">Date must be in future</span>
+        }
         <div class="field">
           <textarea placeholder="Message" cols="21" rows="11" formControlName="message"></textarea>
         </div>
         <div class="invite-button">
           <button type="submit">INVITE TO TRAINING</button>
+          @if (this.trainingMessage) {
+            <p style="text-align: center; color: #08a045;">{{ this.trainingMessage }}</p>
+          }
         </div>
       </form>
     </section>

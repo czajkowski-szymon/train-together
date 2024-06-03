@@ -13,6 +13,7 @@ public interface TrainingRepository extends JpaRepository<Training, Integer> {
     @Query("""
         SELECT t FROM Training t 
         WHERE (t.participantOne.username=:username OR t.participantTwo.username=:username)
+        AND t.participantOne.enabled=true AND t.participantTwo.enabled=true
         AND t.date >= CURRENT_DATE
     """)
     List<Training> findAllUpcomingTrainingsForUser(String username);
@@ -20,6 +21,7 @@ public interface TrainingRepository extends JpaRepository<Training, Integer> {
     @Query("""
         SELECT t FROM Training t 
         WHERE (t.participantOne.username=:username OR t.participantTwo.username=:username)
+        AND t.participantOne.enabled=true AND t.participantTwo.enabled=true
         AND t.date < CURRENT_DATE
     """)
     List<Training> findAllPastTrainingsForUser(String username);

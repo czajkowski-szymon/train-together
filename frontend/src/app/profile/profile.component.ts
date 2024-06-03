@@ -46,7 +46,6 @@ export class ProfileComponent implements OnInit {
     });
 
     this.trainingService.getTrainingInvites().subscribe((response) => {
-      console.log(this.user?.userId);
       this.trainingInvites = response;
     });
 
